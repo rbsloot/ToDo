@@ -1,0 +1,123 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ToDo</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>-->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.js"></script>
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.min.js"></script>-->
+        <script src="http://code.angularjs.org/1.1.5//angular-resource.min.js"></script>
+        <script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.min.js"></script>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<!--        <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap.js"></script>-->
+        <script src="http://isotope.metafizzy.co/beta/isotope.pkgd.js"></script>
+        <script src="scripts/modules/ui-bootstrap.js"></script>
+        <script src="scripts/modules/tabtemplates.js"></script>
+        <script src="scripts/layoutscript.js"></script>
+        <script src="scripts/todo.js"></script>
+        <script src="scripts/boards.js"></script>
+        <script src="scripts/board.js"></script>
+        <script src="scripts/task.js"></script>
+        <link href="css/main.css" rel="stylesheet" />
+    </head>
+    <body ng-app="todo" ng-controller="MainCtrl">
+        <!--Mobile drag and drop http://touchpunch.furf.com/ -->
+        <!--Route example: http://angular-ui.github.io/ui-router/sample/#/contacts/1 -->
+        <!--Tabs: http://www.wulder.nl/blog/2013/08/19/angularjs-bootstrap-tab-directive-and-lazy-loading.html#.Uxc_C_ldWHg -->
+        <!--QueryString/Parameters: http://jsfiddle.net/PHnLb/7/ -->
+        
+        <!--PHP API: https://github.com/martinbean/api-framework -->
+        <!--
+            TODO:
+            Login item maken op navbar
+            Login dialog
+            Register dialog
+            Edit task dialog
+        -->
+        
+        <!--<img src="http://www.hdpaperz.com/wp-content/gallery/18_nice_hd_wallpapers/space-wallpaper-space-32897730-1920-1080.jpg" class="img-fullscreen img-fullscreen-stretch"/>-->
+        <nav class="navbar navbar-default navbar-fixed-top main-navbar" role="navigation">
+            <div class="container-fluid">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" ui-sref="main">ToDo</a>
+              </div>
+
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse" id="navbar">
+                <ul class="nav navbar-nav">
+                  <li><a href="#" id="schedule-toggler">Schedule</a></li>
+<!--                  <li><a href="#">Link</a></li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Action</a></li>
+                      <li><a href="#">Another action</a></li>
+                      <li><a href="#">Something else here</a></li>
+                      <li class="divider"></li>
+                      <li><a href="#">Separated link</a></li>
+                      <li class="divider"></li>
+                      <li><a href="#">One more separated link</a></li>
+                    </ul>
+                  </li>-->
+                </ul>
+<!--                <form class="navbar-form navbar-left" role="search">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                  </div>
+                  <button type="submit" class="btn btn-default">Submit</button>
+                </form>-->
+                <ul class="nav navbar-nav navbar-right">
+                  <li><a ui-sref="login">Login</a></li>
+                  <li><a ui-sref="register">Register</a></li>
+<!--                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Action</a></li>
+                      <li><a href="#">Another action</a></li>
+                      <li><a href="#">Something else here</a></li>
+                      <li class="divider"></li>
+                      <li><a href="#">Separated link</a></li>
+                    </ul>
+                  </li>-->
+                </ul>
+              </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+          </nav>
+        
+<!--        <div class="dialogbackground">
+            <div class="basedialog">
+                <button type="button" class="close-btn">X</button>
+                <h1>Hello world</h1>
+            </div>
+        </div>-->
+<div ui-view="dialog"></div>
+        <!-- START CONTENT -->
+        <div class="main-content-placement">
+            <div class="main-content" ui-view="content">
+                 <ng-tabset ng-controller="BoardsCtrl">
+                    <ng-tab ng-repeat="board in boards" heading="{{board.name}}" active="board.active">
+                        <!--<tab-heading></tab-heading>-->
+                        <div>Tab content for {{board.name}}</div>
+                    </ng-tab>
+                </ng-tabset>
+            </div>
+        </div>
+        
+<!--        <script type="text/ng-template" id="main.html">
+            Hello world
+        </script>-->
+    </body>
+</html>

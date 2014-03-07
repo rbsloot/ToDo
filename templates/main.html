@@ -1,0 +1,242 @@
+
+
+<div class="schedule-today white-bg transition-delay">
+                <div class="schedule-content">
+                    <h4 style="text-align:center;">Schedule for today (3-3-2014)</h4>
+                    <hr/>
+                    <h4>Planned today</h4>
+                    <hr/>
+
+                    <div class="task" draggable="true">
+                        <!--<button class="close-btn">X</button>-->
+                        <div class="task-description">
+                            Description here
+                        </div>
+                        <span class="task-end-date">10-4-2014</span>
+                        <span class="task-status success"></span>
+                    </div>
+
+                    <h4>Deadline today</h4>
+                    <hr/>
+                    
+                    <div class="task" draggable="true">
+                        <div class="task-description">
+                            Description here
+                        </div>
+                        <span class="task-end-date">3-3-2014</span>
+                        <span class="task-status error"></span>
+                    </div>
+                    
+                </div>
+            </div>
+            <!--<div class="board-container">-->
+                <ng-tabset>
+                    <ng-tab ng-repeat="board in boards" boardid="{{board.id}}">
+                        <!--<tab-heading></tab-heading>-->
+                        <!--<div>Tab content for {{board.name}}</div>-->
+                    </ng-tab>
+<!--                    <ng-tab content="Test">
+                        
+                    </ng-tab>-->
+                </ng-tabset>
+                
+<!--                <ul class="nav nav-tabs board-tabs white-bg">
+                    <li class="active"><a href="#board1" data-toggle="tab">Board1</a></li>
+                    <li><a href="#board2" data-toggle="tab">Board2</a></li>
+                    <li class="pull-right">
+                        <form class="navbar-left" role="search" style="padding: 0 15px; margin-bottom:8px; margin-top:8px;">
+                            <div>
+                                <input type="text" class="form-control" style="height:26px; padding:5px 10px;" placeholder="Search">
+                            </div>
+                        <button type="submit" class="hidden btn btn-default">Submit</button>
+                        </form>
+                    </li>
+                </ul>-->
+                
+<!--                <div class="tab-content">
+                    <div class="tab-pane active fade in board js-isotope" id="board1" data-isotope-options='{ "itemSelector": "#board1 > .task-list"}'>
+                        <div class="panel panel-success task-list">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Header</h3>
+                            </div>
+                          <div class="panel-body">
+                            Panel content
+                          </div>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <a ui-sref="main.edittask({listid:10,taskid:10})" class="task" draggable="true" ng-click="test()">
+                                        <button class="close-btn">X</button>
+                                        <div class="task-description">
+                                            Description here
+                                        </div>
+                                        <span class="task-end-date">10-4-2014</span>
+                                        <span class="task-status success"></span>
+                                    </a>
+                                </li>
+                                <li class="list-group-item"><h4 class="list-group-item-heading">Heading</h4><p class="list-group-item-text">Cras justo odio</p></li>
+                              <li class="list-group-item">Porta ac consectetur ac</li>
+                              <li class="list-group-item">Vestibulum at eros</li>
+                            </ul>
+
+                          <div class="panel-footer">Panel footer</div>
+                        </div>
+                        <div class="panel panel-info task-list">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Header</h3>
+                            </div>
+                          <div class="panel-body">
+                            Panel content
+                          </div>
+                            <div class="list-group">
+                                <div class="list-group-item"><a ui-sref="main.edittask({listid:10,taskid:10})" class="task" draggable="true" ng-click="test()">
+                                        <button class="close-btn">X</button>
+                                        <div class="task-description">
+                                            Description here
+                                        </div>
+                                        <span class="task-end-date">10-4-2014</span>
+                                        <span class="task-status success"></span>
+                                    </a></div>
+                              <a class="list-group-item"><h4 class="list-group-item-heading">Heading</h4><p class="list-group-item-text">Cras justo odio</p></a>
+                              <a class="list-group-item">Dapibus ac facilisis in</a>
+                              <a class="list-group-item">Morbi leo risus</a>
+                              <a class="list-group-item">Porta ac consectetur ac</a>
+                              <a class="list-group-item">Vestibulum at eros</a>
+                            </div>
+
+                          <div class="panel-footer">Panel footer</div>
+                        </div>
+                        <div class="panel panel-info task-list">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Header</h3>
+                            </div>
+                          <div class="panel-body">
+                            Panel content
+                          </div>
+                            <div class="list-group">
+                              <a class="list-group-item">Cras justo odio</a>
+                              <a class="list-group-item">Dapibus ac facilisis in</a>
+                              <a class="list-group-item">Morbi leo risus</a>
+                              <a class="list-group-item">Porta ac consectetur ac</a>
+                            </div>
+
+                          <div class="panel-footer">Panel footer</div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade board" id="board2">
+                        <div class="panel panel-success task-list">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Board2</h3>
+                            </div>
+                          <div class="panel-body">
+                            Panel content
+                          </div>
+                            <ul class="list-group">
+                                <li class="list-group-item"><h4 class="list-group-item-heading">Heading</h4><p class="list-group-item-text">Cras justo odio</p></li>
+                              <li class="list-group-item">Porta ac consectetur ac</li>
+                              <li class="list-group-item">Vestibulum at eros</li>
+                            </ul>
+
+                          <div class="panel-footer">Panel footer</div>
+                        </div>
+                        <div class="panel panel-info task-list">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Header</h3>
+                            </div>
+                          <div class="panel-body">
+                            Panel content
+                          </div>
+                            <div class="list-group">
+                                <div class="list-group-item"><a ui-sref="main.edittask({listid:10,taskid:10})" class="task" draggable="true" ng-click="test()">
+                                        <button class="close-btn">X</button>
+                                        <div class="task-description">
+                                            Description here
+                                        </div>
+                                        <span class="task-end-date">10-4-2014</span>
+                                        <span class="task-status success"></span>
+                                    </a></div>
+                              <a class="list-group-item"><h4 class="list-group-item-heading">Heading</h4><p class="list-group-item-text">Cras justo odio</p></a>
+                              <a class="list-group-item">Dapibus ac facilisis in</a>
+                              <a class="list-group-item">Morbi leo risus</a>
+                              <a class="list-group-item">Porta ac consectetur ac</a>
+                              <a class="list-group-item">Vestibulum at eros</a>
+                            </div>
+
+                          <div class="panel-footer">Panel footer</div>
+                        </div>
+                        <div class="panel panel-info task-list">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Header</h3>
+                            </div>
+                          <div class="panel-body">
+                            Panel content
+                          </div>
+                            <div class="list-group">
+                              <a class="list-group-item">Cras justo odio</a>
+                              <a class="list-group-item">Dapibus ac facilisis in</a>
+                              <a class="list-group-item">Morbi leo risus</a>
+                              <a class="list-group-item">Porta ac consectetur ac</a>
+                            </div>
+
+                          <div class="panel-footer">Panel footer</div>
+                        </div>
+                    </div>
+                    </div>-->
+                <!--</div>-->
+                
+                
+<!--          <div class="board panel panel-default">
+              <div class="panel-heading">
+                  <h1 class="panel-title">Board1</h1>
+              </div>
+              <div class="panel-body">
+              <div class="panel panel-success task-list">
+                  <div class="panel-heading">
+                      <h3 class="panel-title">Header</h3>
+                  </div>
+                <div class="panel-body">
+                  Panel content
+                </div>
+                  <ul class="list-group">
+                      <li class="list-group-item"><h4 class="list-group-item-heading">Heading</h4><p class="list-group-item-text">Cras justo odio</p></li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                  </ul>
+                  
+                <div class="panel-footer">Panel footer</div>
+              </div>
+              <div class="panel panel-info task-list">
+                  <div class="panel-heading">
+                      <h3 class="panel-title">Header</h3>
+                  </div>
+                <div class="panel-body">
+                  Panel content
+                </div>
+                  <div class="list-group">
+                    <a class="list-group-item"><h4 class="list-group-item-heading">Heading</h4><p class="list-group-item-text">Cras justo odio</p></a>
+                    <a class="list-group-item">Dapibus ac facilisis in</a>
+                    <a class="list-group-item">Morbi leo risus</a>
+                    <a class="list-group-item">Porta ac consectetur ac</a>
+                    <a class="list-group-item">Vestibulum at eros</a>
+                  </div>
+                  
+                <div class="panel-footer">Panel footer</div>
+              </div>
+              <div class="panel panel-info task-list">
+                  <div class="panel-heading">
+                      <h3 class="panel-title">Header</h3>
+                  </div>
+                <div class="panel-body">
+                  Panel content
+                </div>
+                  <div class="list-group">
+                    <a class="list-group-item">Cras justo odio</a>
+                    <a class="list-group-item">Dapibus ac facilisis in</a>
+                    <a class="list-group-item">Morbi leo risus</a>
+                    <a class="list-group-item">Porta ac consectetur ac</a>
+                  </div>
+                  
+                <div class="panel-footer">Panel footer</div>
+              </div>
+              </div>
+          </div>-->
+        <!--</div>-->

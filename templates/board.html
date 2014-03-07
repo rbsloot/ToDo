@@ -1,0 +1,68 @@
+<div ui-view="main-dialog"></div>
+
+<div ng-repeat="list in board.lists" class="panel panel-success task-list" listid="{{list.id}}">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{list.name}}</h3>
+    </div>
+  <div class="panel-body">
+    Panel content
+  </div>
+    <ul class="list-group">
+        <li ng-repeat="task in list.tasks" class="list-group-item">
+            <a ui-sref="main.board.edittask({boardid:board.id,taskid:task.id})" class="task" taskid="{{task.id}}" draggable="true" ng-click="test()">
+                <!--<button class="close-btn">X</button>-->
+                <div class="task-description">
+                    Description here
+                </div>
+                <span class="task-end-date">10-4-2014</span>
+                <span class="task-status success"></span>
+            </a>
+        </li>
+<!--                                <li class="list-group-item"><h4 class="list-group-item-heading">Heading</h4><p class="list-group-item-text">Cras justo odio</p></li>
+      <li class="list-group-item">Porta ac consectetur ac</li>
+      <li class="list-group-item">Vestibulum at eros</li>-->
+    </ul>
+
+  <div class="panel-footer">Panel footer</div>
+</div>
+<!--                        <div class="panel panel-info task-list">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Header</h3>
+                            </div>
+                          <div class="panel-body">
+                            Panel content
+                          </div>
+                            <div class="list-group">
+                                <div class="list-group-item"><a ui-sref="main.board.edittask({listid:10,taskid:10})" class="task" draggable="true" ng-click="test()">
+                                        <button class="close-btn">X</button>
+                                        <div class="task-description">
+                                            Description here
+                                        </div>
+                                        <span class="task-end-date">10-4-2014</span>
+                                        <span class="task-status success"></span>
+                                    </a></div>
+                              <a class="list-group-item"><h4 class="list-group-item-heading">Heading</h4><p class="list-group-item-text">Cras justo odio</p></a>
+                              <a class="list-group-item">Dapibus ac facilisis in</a>
+                              <a class="list-group-item">Morbi leo risus</a>
+                              <a class="list-group-item">Porta ac consectetur ac</a>
+                              <a class="list-group-item">Vestibulum at eros</a>
+                            </div>
+
+                          <div class="panel-footer">Panel footer</div>
+                        </div>
+                        <div class="panel panel-info task-list">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Header</h3>
+                            </div>
+                          <div class="panel-body">
+                            Panel content
+                          </div>
+                            <div class="list-group">
+                              <a class="list-group-item">Cras justo odio</a>
+                              <a class="list-group-item">Dapibus ac facilisis in</a>
+                              <a class="list-group-item">Morbi leo risus</a>
+                              <a class="list-group-item">Porta ac consectetur ac</a>
+                            </div>
+
+                          <div class="panel-footer">Panel footer</div>
+                        </div>-->
