@@ -19,10 +19,20 @@ class BoardController extends BaseController {
     public function get($request) {
         if(isset($request->parameters['_user'])) {
             // Get for user
+            header(BaseController::$HEADERS[200]);
+            return array(
+                array('id' => 1, 'name' => 'MyBoard'),
+                array('id' => 4, 'name' => 'BoardSomething'),
+                array('id' => 10, 'name' => 'Please')
+            );
         } else {
             // Get all
             header(BaseController::$HEADERS[200]);
-            return "test";
+            return array(
+                array('id' => 1, 'name' => 'MyBoard'),
+                array('id' => 4, 'name' => 'BoardSomething'),
+                array('id' => 10, 'name' => 'Please')
+            );
         }
     }
     

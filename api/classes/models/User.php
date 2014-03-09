@@ -10,18 +10,24 @@
  *
  * @author Remi
  */
-class User {
+class User extends DBModel {
     
     public $id;
     public $username;
     public $password;
     public $session_token;
     
-    public function __construct($id, $username, $password, $session_token) {
+    protected $tableName = "user";
+    
+    public function __construct($id = null, $username = null, $password = null, $session_token = null) {
         $this->id = $id;
         $this->username = $username;
         $this->password = $password;
         $this->session_token = $session_token;
+    }
+    
+    public function properties() {
+        return array('id','username','password','session_token');
     }
     
 }

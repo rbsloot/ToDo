@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-function BoardCtrl($scope, $stateParams) {
+function BoardCtrl($scope, $stateParams, $http) {
     $scope.boardid = $stateParams.boardid;
     $scope.taskid = $stateParams.taskid;    
     
@@ -11,11 +11,26 @@ function BoardCtrl($scope, $stateParams) {
         //alert("start broadcast");
         //console.log($stateParams);
         $scope.$root.$broadcast("tabChanged",{id:$stateParams.boardid});
+        angular.element($(".board-container")).scope().activeBoardId = $scope.boardid;
     }
     
     $scope.board = {
         id:$stateParams.boardid
     };
+    
+    $scope.getLists = function() {
+        $http({
+            url:'/todo/api/list',
+            method:'GET',
+            params:{ bid:$scope.boardid }
+        }).success(function(data, status, headers, config) {
+            $scope.board.lists = data;
+            console.log("done loading lists");
+        }).error(function(data, status, headers, config) {
+            console.log("error loading lists");
+        });
+    }
+    $scope.getLists();
     
     $scope.getBoardLists = function() {
         if($scope.board.id == 3) {
@@ -82,7 +97,7 @@ function BoardCtrl($scope, $stateParams) {
         } 
     }
     
-    $scope.board.lists = $scope.getBoardLists();
+    //$scope.board.lists = $scope.getBoardLists();
     
     $scope.testTask = function() {
         console.log($stateParams);
