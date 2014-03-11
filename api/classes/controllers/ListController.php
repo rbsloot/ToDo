@@ -23,9 +23,11 @@ class ListController extends BaseController {
         $listSelStr = $list->createSelectString();
         $taskSelStr = $task->createSelectString(null, "GROUP_CONCAT", "SEPARATOR '$separator'");
         
-        if(isset($request->parameters['bid'])) {
+        $params = $request->parameters;
+        
+        if(isset($params['bid'])) {
             // Get lists for board
-            $boardid = $request->parameters['bid'];
+            $boardid = $params['bid'];
             
             $query = "SELECT $listSelStr, $taskSelStr FROM `list` INNER JOIN `task` ON `task`.`list_id` = `list`.`id` WHERE `list`.`board_id` = :bid GROUP BY `list`.id";
             $this->db->prepareQuery($query);

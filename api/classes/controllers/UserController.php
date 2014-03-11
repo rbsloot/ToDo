@@ -20,12 +20,13 @@ class UserController extends BaseController {
         
     }
     
-    public function logout($request, $user) {
+    public function logout($request) {
         
     }
     
     public function getUserByToken($request) {
-        $token = $request->parameters["token"];
+        $params = $request->parameters;
+        $token = $params["token"];
         
         $query = "SELECT * FROM user WHERE session_token = :token";
         $this->db->prepareQuery($query);

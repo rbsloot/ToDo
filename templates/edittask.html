@@ -1,6 +1,35 @@
 <div class="dialogbackground">
     <div class="basedialog task-dialog">
         <a ui-sref="main.board({boardid:board.id})" class="close-btn">X</a>
-        <h1 ng-click="testTask()">Hello world, boardid: {{boardid}}, taskid: {{taskid}}</h1>
+        <form>
+            <fieldset>
+                <legend>{{selectedTask.name}}</legend>
+                <div class="form-group">
+                    <label class="" for="name">Name</label>
+                    <input type="text" name="name" id="name" ng-model="selectedTask.name" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label class="" for="description">Description</label>
+                    <textarea name="description" id="description" ng-model="selectedTask.description" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="" for="end_date">Dead line</label>
+                    <input type="datetime-local" name="end_date" id="end_date" ng-model="selectedTask.end_date" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label class="" for="status">Status</label>
+                    <span ng-class="{completed:'success',not_completed:'error'}[selectedTask.status]" class="task-status"></span>
+                    <select ng-model="selectedTask.status" name="status" id="status" class="form-control">
+                        <option value="completed">Done</option>
+                        <option value="not_completed">Not done</option>
+                    </select>
+                </div>
+                <hr/>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a ui-sref="main.board({boardid:board.id})" class="btn btn-default">Cancel</a>
+                </div>
+            </fieldset>
+        </form>
     </div>
 </div>

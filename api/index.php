@@ -1,5 +1,7 @@
 <?php
 
+$db = 'dev';
+
 /**
  * Generic class autoloader.
  * 
@@ -53,17 +55,21 @@ switch ($request->method) {
  * Route the request.
  */
 if (!empty($request->url_elements)) {
-    $controller_name = ucfirst($request->url_elements[0]) . 'Controller';
+    $url_elements = $request->url_elements;
+    
+    $controller_name = ucfirst($url_elements[0]) . 'Controller';
     if (class_exists($controller_name)) {
         $dbconfig = include 'classes/database/DatabaseConfig.php';
         try {
-            $dbcon = new DatabaseConnection($dbconfig['settings']);
+            $dbcon = new DatabaseConnection($dbconfig[$db]);
+            $params = $request->parameters;
 
-            if(isset($request->parameters['token'])) {
+            if(isset($params['token'])) {
                 $userController = new UserController($dbcon);
                 $user = $userController->getUserByToken($request);
                 if(isset($user)) {
-                    $request->parameters['_user'] = $user;
+                    $params['_user'] = $user;
+                    $request->parameters = $params;
                 } else {
                     // No user found for token
                     header(BaseController::$HEADERS[404]);
@@ -73,7 +79,7 @@ if (!empty($request->url_elements)) {
             }
             
             $controller = new $controller_name($dbcon);
-            $action_name = (isset($request->url_elements[1])) ? strtolower($request->url_elements[1]) : strtolower($request->method);
+            $action_name = (isset($url_elements[1])) ? strtolower($url_elements[1]) : strtolower($request->method);
             $response_str = call_user_func_array(array($controller, $action_name), array($request));
         } catch(Exception $e) {
             header(BaseController::$HEADERS[500]);
@@ -84,7 +90,7 @@ if (!empty($request->url_elements)) {
     else {
         //header('HTTP/1.1 404 Not Found');
         header(BaseController::$HEADERS[404]);
-        $response_str = 'Unknown request: ' . $request->url_elements[0];
+        $response_str = 'Unknown request: ' . $url_elements[0];
     }
 }
 else {

@@ -5,7 +5,7 @@
 
 function BoardCtrl($scope, $stateParams, $http) {
     $scope.boardid = $stateParams.boardid;
-    $scope.taskid = $stateParams.taskid;    
+    $scope.taskid = $stateParams.taskid;
     
     $scope.init = function() {
         //alert("start broadcast");
@@ -25,76 +25,27 @@ function BoardCtrl($scope, $stateParams, $http) {
             params:{ bid:$scope.boardid }
         }).success(function(data, status, headers, config) {
             $scope.board.lists = data;
+            if($scope.taskid) {
+                $scope.setSelectedTask($scope.taskid);
+            }
             console.log("done loading lists");
         }).error(function(data, status, headers, config) {
             console.log("error loading lists");
         });
     }
-    $scope.getLists();
     
-    $scope.getBoardLists = function() {
-        if($scope.board.id == 3) {
-            return [{
-                    id:1,
-                    name:"List1",
-                    tasks: [{
-                        id:1,
-                        name:"test"
-                    }, {
-                        id:2,
-                        name:"test2"
-                    }]
-                }, {
-                    id:2,
-                    name:"List2",
-                    tasks: [{
-                        id:1,
-                        name:"test"
-                    }, {
-                        id:2,
-                        name:"test2"
-                    }, {
-                        id:3,
-                        name:"test3"
-                    }, {
-                        id:4,
-                        name:"test4"
-                    }]
-                }, {
-                    id:3,
-                    name:"List3"
-                }];
-        }
-        else {
-            return [{
-                    id:1,
-                    name:"List1",
-                    tasks: [{
-                        id:1,
-                        name:"test"
-                    }, {
-                        id:2,
-                        name:"test2"
-                    }]
-                }, {
-                    id:2,
-                    name:"List2",
-                    tasks: [{
-                        id:1,
-                        name:"test"
-                    }, {
-                        id:4,
-                        name:"test4"
-                    }]
-                }, {
-                    id:3,
-                    name:"List3",
-                    tasks: [{
-                        id:10,
-                        name:"somethin"
-                    }]
-                }];
-        } 
+    $scope.setSelectedTask = function(taskid) {
+        $scope.selectedTask = null;
+        angular.forEach($scope.board.lists, function(list) {
+            angular.forEach(list.tasks, function(task) {
+                if(task.id == taskid) {
+                    $scope.selectedTask = task;
+                    $scope.selectedTask.end_date = $scope.selectedTask.end_date.replace(' ','T');
+                    return false;
+                }
+            }); 
+            if($scope.selectedTask) return false;
+        });
     }
     
     //$scope.board.lists = $scope.getBoardLists();
@@ -105,4 +56,5 @@ function BoardCtrl($scope, $stateParams, $http) {
     }
     
     $scope.init();
+    $scope.getLists();
 }
