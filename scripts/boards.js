@@ -34,7 +34,7 @@ function BoardsCtrl($scope, $http) {
     }
 
     $scope.getBoards = function() {
-        $http.get('/todo/api/board',{params:{token:"test"}})
+        $http.get('/todo/api/board',{params:{token:localStorage.getItem("token")}})
         .success(function(data, status, headers, config) {
             //alert("complete");
             console.log(data);

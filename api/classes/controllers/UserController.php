@@ -17,7 +17,34 @@ class UserController extends BaseController {
     }
     
     public function login($request) {
-        
+        $params = $request->parameters;
+		$name = $params["name"];
+		$password = $params["password"];
+		
+		$query = "SELECT id FROM user WHERE username = :name AND password = :password";
+		$this->db->prepareQuery($query);
+		$this->db->bindParam(":name", $name, DatabaseConnection::ConvertTypeToPDOParam("string"));
+		$this->db->bindParam(":password", $password, DatabaseConnection::ConvertTypeToPDOParam("string"));
+		$dataRows = $this->db->executeAndGetDatarows();
+		
+		if(isset($dataRows[0])) {
+			$dataRow = $dataRows[0];			
+			$id = $dataRow['id'];
+			$token = md5($id);
+			
+			
+			$query = "UPDATE user SET session_token = :token WHERE id = :id";
+			$this->db->prepareQuery($query);
+			$this->db->bindParam(":token", $token, DatabaseConnection::ConvertTypeToPDOParam("string"));
+			$this->db->bindParam(":id", $id, DatabaseConnection::ConvertTypeToPDOParam("integer"));
+			$this->db->execute();
+			
+			return array("token"=>$token);
+			
+		} else {			
+			header(BaseController::$HEADERS[404]);
+		}
+			
     }
     
     public function logout($request) {
