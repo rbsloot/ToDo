@@ -1,6 +1,36 @@
 <div class="dialogbackground">
     <div class="basedialog login-dialog">
         <a ui-sref="main" class="close-btn">X</a>
-        Register screen
+        <form class="form-horizontal" ng-submit="register(user)">
+			<fieldset>
+				<legend> Register </legend>
+				<div class="form-group">
+					<label for="username" class="col-sm-2 control label">Username </label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="username" placeholder="Username" ng-model="user.name" required autofocus>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password" class="col-sm-2 control-label">Password</label>
+					<div class="col-sm-10">
+						<input type="password" class="form-control" id="password" placeholder="Password" ng-model="user.password" required>
+					</div>
+				</div>
+				<div>
+					<label for="repeatPassword" class="cal-sm-2 control-label">Repeat the Password</label>
+					<div class="col-sm-10"> 
+						<input type="password" class="form-control" id="repeatPassword" placeholder="Password" ng-model="user.password" required>
+						</div>
+					</div>
+				</div>
+				<div class="alert alert-danger" ng-show='errorMessage'>
+				{{errorMessage}}
+				</div>
+				<div class="pull-right">
+					<button type="submit" class="btn btn-primary>Confirm</button>
+					<a ui-sref="main" class="btn btn-default">Cancel</a>
+				</div>
+			</fieldset>
+		</form>
     </div>
 </div>

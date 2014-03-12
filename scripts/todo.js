@@ -35,13 +35,12 @@ angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset'])
     }).state('login', {
         url:'/login',
         views: {
-            //"content":{template: "<h1>Hello world</h1>"},
-            "dialog":{templateUrl:'templates/login.html'}
+            "dialog":{templateUrl:'templates/login.html', controller:'UserCtrl'}
         }
     }).state('register', {
         url:'/register',
         views: {
-            "dialog":{templateUrl:'templates/register.html'}
+            "dialog":{templateUrl:'templates/register.html', controller:'UserCtrl'}
         }
     }).state('main.board.edittask', {
         url:'/task/:taskid',
