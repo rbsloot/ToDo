@@ -1,6 +1,6 @@
 <div class="dialogbackground">
     <div class="basedialog login-dialog">
-        <a ui-sref="main" class="close-btn">X</a>
+        <a class="close-btn" ng-click="$back()">X</a>
         <form class="form-horizontal" ng-submit="login(user)">
             <fieldset>
                 <legend>Login form</legend>
@@ -21,7 +21,7 @@
 				</div>
                 <div class="pull-right">
                     <button type="submit" class="btn btn-primary">Sign in</button>
-                    <a ui-sref="main" class="btn btn-default">Cancel</a>
+                    <a class="btn btn-default" ng-click="$back()">Cancel</a>
                 </div>				
             </fieldset>			
         </form>

@@ -3,15 +3,30 @@
  * and open the template in the editor.
  */
 
-function BoardsCtrl($scope, $http) {
+function BoardsCtrl($scope, $rootScope,$http) {
     //alert("init BoardsCtrl");
-    
+    //var $parent = $rootScope.$$childTail;
     $scope.activeBoardId = -1;
     $scope.testName = "testVal";
     $scope.boards = [{
             id:-1,
             name:"Loading..."
     }];
+    
+    $scope.getCurrentDateStr = function() {
+        var m_names = new Array("January", "February", "March", 
+        "April", "May", "June", "July", "August", "September", 
+        "October", "November", "December");
+
+        var d = new Date();
+        var curr_date = d.getDate();
+        var curr_month = d.getMonth();
+        var curr_year = d.getFullYear();
+        
+        return curr_date + " " + m_names[curr_month] + " " + curr_year;
+    }
+    
+    $scope.currentDate = $scope.getCurrentDateStr();
 //    [{
 //            id:3,
 //            name:"MyBoard",

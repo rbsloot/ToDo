@@ -39,11 +39,8 @@ class BoardController extends BaseController {
 //            );
         } else {
             // Get all
-            header(BaseController::$HEADERS[200]);
-            return array(
-                array('id' => 1, 'name' => 'MyBoard'),
-                array('id' => 4, 'name' => 'BoardSomething'),
-            );
+            header(BaseController::$HEADERS[404]);
+            return null;
         }
     }
     

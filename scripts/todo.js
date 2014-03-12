@@ -57,24 +57,37 @@ angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset'])
     $urlRouterProvider.otherwise("/");
     
 })
-.run(function($rootScope,$location) {
+.run(function($rootScope,$location, $state, $timeout) {
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState) {
         console.log('routechangestart');
         console.log(toState);
         console.log(toParams);
         console.log(fromState);
+        
+        //console.log($location.path());
+        
+        var $parent = $rootScope.$$childTail;
+        //console.log($parent.isLogged);
+        // If not is logged in and page to go is not Login or Register Redirect to Login
+        if(!$parent.isLogged && toState.name !== "login" && toState.name !== "register") {
+            event.preventDefault();
+            $state.transitionTo('login');
+        } else {
+            // If is logged in and page to go is Login or Register Redirect to Main
+            if((toState.name === "login" || toState.name === "register") && $parent.isLogged) {
+                event.preventDefault();
+                $state.transitionTo('main');
+            }
+        }
+        //console.log($location.path());
         //$location.path('/login');
     });
 })
-.controller('MainCtrl', function($scope, $state) {
-    
-    $scope.openDialog = function(dialog) {
-        $state.transitionTo(dialog);
+.controller('MainCtrl', function($scope) {
+    $scope.isLogged = !!(localStorage.token);
+     
+    $scope.$back = function() {
+        window.history.back();
     }
-})
-.controller('LoginCtrl', function($scope) {
-    
-})
-.controller('RegisterCtrl', function($scope) {
     
 });
