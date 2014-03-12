@@ -82,56 +82,7 @@
     transition-delay: 0.5s;
 }
 
-/* MEDIA STYLES */
-
-@media (min-width: 800px) {
-    .container {
-        width: 95%;
-    }
-}
-
-@media (max-width: 800px) {
-    .board-container,.schedule-today {
-        width: 100%;
-    }
-    
-    .schedule-today {
-        border-right: none;
-        border-bottom: 1px solid black;
-    }
-    
-    .task-list {
-        width: 95%;
-    }
-    
-    .login-dialog {
-        top:0;
-        bottom:0;
-        right:0;
-        left:0;
-        width:100% !important;
-        margin-top:50px;
-        border-radius: 0;
-    }
-}
-
-@media (min-width:1350px) {
-    .board-container {
-        width:75%;
-    }
-    .schedule-today {
-        width:25%;
-    }
-}
-
-@media(min-width:1600px) {
-    .board-container {
-        width:80%;
-    }
-    .schedule-today {
-        width:20%;
-    }
-}
+/* Main Styles */
 
 .main-navbar {
     box-shadow: 1px 1px 4px rgba(33, 65, 146, 0.4);
@@ -274,7 +225,57 @@
 
 .login-dialog {
     padding: 0 10px;
-    width: 450px !important;
+    width: 450px;
 }
 
 
+/* MEDIA STYLES */
+
+@media (min-width: 800px) {
+    .container {
+        width: 95%;
+    }
+}
+
+@media (max-width: 800px) {
+    .board-container,.schedule-today {
+        width: 100% !important;
+    }
+    
+    .schedule-today {
+        border-right: none;
+        border-bottom: 1px solid black;
+    }
+    
+    .task-list {
+        width: 95%;
+    }
+    
+    .login-dialog {
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+        width:100% !important;
+        margin-top:50px;
+        border-radius: 0;
+    }
+}
+
+@media (min-width:1350px) {
+    .board-container {
+        width:75%;
+    }
+    .schedule-today {
+        width:25%;
+    }
+}
+
+@media(min-width:1600px) {
+    .board-container {
+        width:80%;
+    }
+    .schedule-today {
+        width:20%;
+    }
+}
