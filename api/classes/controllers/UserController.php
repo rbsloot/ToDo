@@ -30,8 +30,7 @@ class UserController extends BaseController {
 		if(isset($dataRows[0])) {
 			$dataRow = $dataRows[0];			
 			$id = $dataRow['id'];
-			$token = md5($id);
-			
+			$token = md5($id);			
 			
 			$query = "UPDATE user SET session_token = :token WHERE id = :id";
 			$this->db->prepareQuery($query);
@@ -48,29 +47,27 @@ class UserController extends BaseController {
     }
     
 	public function register($request) {
-		$params = $request->$parameters;
-		var_dump($params); 
+		$params = $request->parameters;
 		$name = $params["name"];
 		$password = $params["password"];
 		
-			
-		$query = "SELECT id FROM user WHERE username = :name";
+		$query = "SELECT id FROM user WHERE username = :name AND password = :password";
 		$this->db->prepareQuery($query);
 		$this->db->bindParam(":name", $name, DatabaseConnection::ConvertTypeToPDOParam("string"));
+		$this->db->bindParam(":password", $password, DatabaseConnection::ConvertTypeToPDOParam("string"));
 		$dataRows = $this->db->executeAndGetDatarows();
 		
-		if(!isset($dataRows[0])) {
+		if(isset($dataRows[0])) {			
+			header(BaseController::$HEADERS[409]);
+		} else {	
+			
 			$query = "INSERT INTO user (username, password) VALUES (:name, :password)";
 			$this->db->prepareQuery($query);
 			$this->db->bindParam(":name", $name, DatabaseConnection::ConvertTypeToPDOParam("string"));
 			$this->db->bindParam(":password", $password, DatabaseConnection::ConvertTypeToPDOParam("string"));
 			$this->db->execute();
-		} else {
-			header(BaseController::$HEADERS[409]);
+	
 		}
-		
-		
-		
 	}	
 	
     public function logout($request) {

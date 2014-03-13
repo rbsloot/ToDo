@@ -39,23 +39,23 @@ function UserCtrl($scope, $http, $state, $rootScope) {
     }
 	
 	$scope.register = function(user) {
-		if(user.repeatPassword === user.password){
-			$http({
-				url:'/todo/api/user/register',
-				method:'POST',
-				data:user,
-				headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-			}).success(function(data, status, headers, config){			
-				$scope.errorMessage = null;
-				$state.transitionTo('login');
-			}).error(function(data, status, headers, config) {	
-				if(status == 409)
-				{
-					$scope.errorMessage = "Username already exists";
-				}						
-			});
-		} else {			
+		console.log(user);
+		if(user.repeatPassword === user.password){	
+            $http({
+                url:'/todo/api/user/register',
+                method:'GET',
+                params:user
+            }).success(function(data, status, headers, config){			
+                $scope.errorMessage = null;
+                $state.transitionTo('login');
+            }).error(function(data, status, headers, config) {
+                if(status == 409) {
+                    $scope.errorMessage = "User already exists";
+                }	
+            });
+		}else {			
 			$scope.errorMessage = "Passwords are not the same";
-		}
+		} 
+
 	}
 }
