@@ -41,13 +41,14 @@ switch ($request->method) {
         $request->parameters = $_GET;
     break;
     case 'POST':
-        $request->parameters = $_POST;
+        // If real form data is posted check with apache_request_headers, content-type, contains application/json or application/'form'
+        $request->parameters = json_decode(file_get_contents('php://input'), true);
     break;
     case 'PUT':
-        parse_str(file_get_contents('php://input'), $request->parameters);
+        $request->parameters = json_decode(file_get_contents('php://input'), true);
     break;
     case 'DELETE':
-        $request->parameters = array();
+        $request->parameters = json_decode(file_get_contents('php://input'), true);
     break;
 }
 

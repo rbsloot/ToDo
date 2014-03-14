@@ -46,6 +46,28 @@ class BoardController extends BaseController {
     
     public function post($request) {
         // Create board
+        $params = $request->parameters;
+        if(isset($params['_user']) && isset($params['bName'])) {
+            
+            $bname = $params['bName'];
+            $user = $params['_user'];
+            
+            $query = "INSERT INTO `board` (`name`) VALUES(:bname)";
+            $this->db->prepareQuery($query);
+            $this->db->bindParam(':bname',$bname, DatabaseConnection::ConvertTypeToPDOParam("string"));
+            $this->db->execute();
+            
+            $newBId = $this->db->getLastInsertId();
+            
+            $query2 = "INSERT INTO `user_has_board` (`user_id`,`board_id`) VALUES(:uid, :bid)";
+            $this->db->prepareQuery($query2);
+            $this->db->bindParam(':uid',$user->id, DatabaseConnection::ConvertTypeToPDOParam("integer"));
+            $this->db->bindParam('bid', $newBId, DatabaseConnection::ConvertTypeToPDOParam("integer"));
+            $this->db->execute();
+            
+            return array("id" => $newBId);
+        }
+        return array("id" => -1);
     }
     
     public function put($request) {

@@ -46,7 +46,7 @@ angular.module('bootstrap.tabset', [])
 //        $scope.templateUrl = templateUrl;
 //      }
 
-      this.addTab = function (tab) {
+      this.addBoardTab = function (tab) {
             //console.log(tab);
             angular.forEach($scope.boards, function(board) {
                 if(board.id == tab.id)
@@ -57,6 +57,10 @@ angular.module('bootstrap.tabset', [])
             }
             //tabs.push(tab);
       };
+      
+      this.callFunc = function(funcName, value) {
+          $scope[funcName](value);
+      }
     },
     template:
       '<div class="board-container">' +
@@ -71,7 +75,7 @@ angular.module('bootstrap.tabset', [])
       '</div>'
   };
 })
-.directive('ngTab', function () {
+.directive('ngBoardTab', function () {
   return {
     restrict: 'E',
     replace: true,
@@ -88,7 +92,7 @@ angular.module('bootstrap.tabset', [])
 //            scope.board = {};
 //        }
         
-        tabsetController.addTab(scope);
+        tabsetController.addBoardTab(scope);
         
 //        if(!attrs.boardid) {
 //            scope.board.active = !!element.data("active");
@@ -110,7 +114,41 @@ angular.module('bootstrap.tabset', [])
     },
     template:
       '<li ng-class="{active: board.active}">' +
+        //'<button class="close-btn" type="button">X</button>' +
         '<a ui-sref="main.board({boardid:board.id})" ng-click="select()">{{ board.name }}</a>' +
       '</li>'
   };
-});
+})
+.directive('ngAddTab', function() {
+return {
+    restrict: 'E',
+    replace: true,
+    require: '^ngTabset',
+    scope: {
+      title: '@',
+      templateUrl: '@'
+    },
+    link: function(scope, element, attrs, tabsetController) {
+
+        scope.type = (attrs.type) ? attrs.type : "text";
+        scope.placeholder = (attrs.placeholder) ? attrs.placeholder : "";
+        scope.bType = (attrs.btype) ? attrs.btype : "default";
+        scope.functionName = (attrs.funcname) ? attrs.funcname : "";
+        
+        scope.addValue;
+
+        scope.callFunc = function() {
+            tabsetController.callFunc(scope.functionName, scope.addValue);
+        }
+
+//        scope.select = function () {
+////            alert("Tab selected");
+//            tabsetController.selectTab(scope.board);
+//        }
+    },
+    template:
+      '<li>' +
+        '<form ng-submit="callFunc()" class="form-inline navbar-form"><input ng-model="addValue" class="form-control input-tab input-sm" type="{{type}}" placeholder="{{placeholder}}" /><button type="submit" class="btn btn-{{bType}} btn-tab btn-xs"><i class="glyphicon glyphicon-plus"> </i></button></form>' +
+      '</li>'
+  };
+})

@@ -67,7 +67,7 @@
     font-size: 15px;
     text-decoration: none;
     color: white;
-    background-color: rgb(41, 93, 170);
+    background-color: rgb(109, 14, 14);;
 }
 
 .full-width {
@@ -80,6 +80,17 @@
 
 .transition-delay {
     transition-delay: 0.5s;
+}
+
+.btn-tab {
+    padding:3px 8px;
+}
+
+.input-tab {
+    width: 100px !important;
+    height: 26px;
+    padding: 3px 6px;
+    display:inline-block;
 }
 
 /* Main Styles */
@@ -259,6 +270,11 @@
         width:100% !important;
         margin-top:50px;
         border-radius: 0;
+    }
+    
+    .navbar-form {
+        padding: 6px 1px;
+        margin:0;
     }
 }
 

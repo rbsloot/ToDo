@@ -54,7 +54,7 @@ angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset'])
         }
     });
     
-    $urlRouterProvider.otherwise("/");
+    $urlRouterProvider.otherwise("/login");
     
 })
 .run(function($rootScope,$location, $state, $timeout) {

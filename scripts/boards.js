@@ -84,8 +84,33 @@ function BoardsCtrl($scope, $rootScope,$http) {
     
     $scope.getBoards();
     
-    $scope.test = function() {
+   $scope.addBoard = function(boardName) {
+       if(boardName) {
+           $http({
+               url:"/todo/api/board",
+               method:"POST",
+               data:{bName:boardName,token:localStorage.token}
+           }).success(function(data, status, headers, config) {
+               var id = data.id;
+               if(id && id != -1) {
+                    $scope.boards.push({
+                        id:id,
+                        name:boardName
+                    });
+               }
+           }).error(function(data, status, headers, config) {
+               alert("Something went wrong while adding the new board, '"+boardName+"'");
+           });
+       }
+   } 
+    
+    $scope.test = function(testValue) {
         //alert("Hello board");
+        console.log(testValue);
+        if(testValue) {
+            alert("Testval: "+testValue);
+        }
+        
         console.log("Hello board");
     }
 }
