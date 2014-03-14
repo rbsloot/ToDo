@@ -24,8 +24,8 @@ function UserCtrl($scope, $http, $state, $rootScope) {
             });
 	}
         
-        $scope.logout = function() {
-            $http({
+    $scope.logout = function() {
+           $http({
                 url:'/todo/api/user/logout',
                 method:'GET'
             }).success(function(data, status, headers, config){			
@@ -36,5 +36,26 @@ function UserCtrl($scope, $http, $state, $rootScope) {
             }).error(function(data, status, headers, config) {
                 console.log(data);	
             });
-        }
+    }
+	
+	$scope.register = function(user) {
+		console.log(user);
+		if(user.repeatPassword === user.password){	
+            $http({
+                url:'/todo/api/user/register',
+                method:'GET',
+                params:user
+            }).success(function(data, status, headers, config){			
+                $scope.errorMessage = null;
+                $state.transitionTo('login');
+            }).error(function(data, status, headers, config) {
+                if(status == 409) {
+                    $scope.errorMessage = "User already exists";
+                }	
+            });
+		}else {			
+			$scope.errorMessage = "Passwords are not the same";
+		} 
+
+	}
 }
