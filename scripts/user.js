@@ -43,8 +43,8 @@ function UserCtrl($scope, $http, $state, $rootScope) {
 		if(user.repeatPassword === user.password){	
             $http({
                 url:'/todo/api/user/register',
-                method:'GET',
-                params:user
+                method:'POST',
+                data:user
             }).success(function(data, status, headers, config){			
                 $scope.errorMessage = null;
                 $state.transitionTo('login');

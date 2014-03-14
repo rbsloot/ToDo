@@ -29,12 +29,12 @@ class ListController extends BaseController {
             // Get lists for board
             $boardid = $params['bid'];
             
-            $query = "SELECT $listSelStr, $taskSelStr FROM `list` INNER JOIN `task` ON `task`.`list_id` = `list`.`id` WHERE `list`.`board_id` = :bid GROUP BY `list`.id";
+            $query = "SELECT $listSelStr, $taskSelStr FROM `list` LEFT JOIN `task` ON `task`.`list_id` = `list`.`id` WHERE `list`.`board_id` = :bid GROUP BY `list`.id";
             $this->db->prepareQuery($query);
             $this->db->bindParam(":bid", $boardid, DatabaseConnection::ConvertTypeToPDOParam("integer"));
         } else {
             // Get all lists
-            $query = "SELECT $listSelStr, $taskSelStr FROM `list` INNER JOIN `task` ON `task`.`list_id` = `list`.`id` GROUP BY `list`.id";
+            $query = "SELECT $listSelStr, $taskSelStr FROM `list` LEFT JOIN `task` ON `task`.`list_id` = `list`.`id` GROUP BY `list`.id";
             $this->db->prepareQuery($query);
         }
         
