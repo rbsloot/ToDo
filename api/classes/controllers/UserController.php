@@ -66,7 +66,31 @@ class UserController extends BaseController {
 			$this->db->bindParam(":name", $name, DatabaseConnection::ConvertTypeToPDOParam("string"));
 			$this->db->bindParam(":password", $password, DatabaseConnection::ConvertTypeToPDOParam("string"));
 			$this->db->execute();
-	
+			
+			//create first board and list
+			$query = "SELECT id FROM user WHERE username = :name AND password = :password";
+			$this->db->prepareQuery($query);
+			$this->db->bindParam(":name", $name, DatabaseConnection::ConvertTypeToPDOParam("string"));
+			$this->db->bindParam(":password", $password, DatabaseConnection::ConvertTypeToPDOParam("string"));
+			$dataRows = $this->db->executeAndGetDatarows();
+			$dataRow = $dataRows[0];
+			$id = $dataRow['id'];
+			
+			$query = "INSERT INTO board (name) VALUES ('MyBoard')";
+			$this->db->prepareQuery($query);
+			$dataRows = $this->db->execute();
+			$boardId = $this->db->getLastInsertId();
+			
+			$query = "INSERT INTO user_has_board (user_id, board_id) VALUES (:id,:boardId)";
+			$this->db->prepareQuery($query);
+			$this->db->bindParam(":id", $id, DatabaseConnection::ConvertTypeToPDOParam("string"));
+			$this->db->bindParam(":boardId", $boardId, DatabaseConnection::ConvertTypeToPDOParam("string"));
+			$this->db->execute();
+			
+			$query = "INSERT INTO list (name, board_id) VALUES ('MyList', :boardId)";
+			$this->db->prepareQuery($query);
+			$this->db->bindParam(":boardId", $boardId, DatabaseConnection::ConvertTypeToPDOParam("string"));
+			$this->db->execute();
 		}
 	}	
 	
