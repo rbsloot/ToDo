@@ -1,6 +1,5 @@
 <?php
 
-$db = 'dev';
 
 /**
  * Generic class autoloader.
@@ -62,7 +61,7 @@ if (!empty($request->url_elements)) {
     if (class_exists($controller_name)) {
         $dbconfig = include 'classes/database/DatabaseConfig.php';
         try {
-            $dbcon = new DatabaseConnection($dbconfig[$db]);
+            $dbcon = new DatabaseConnection($dbconfig[DB_VER]);
             $params = $request->parameters;
 
             if(isset($params['token'])) {

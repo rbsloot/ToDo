@@ -1,4 +1,5 @@
 <?php
+define('DB_VER', 'dev');
 
 return array(
     'dev' => array(
