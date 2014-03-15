@@ -239,6 +239,12 @@
     width: 450px;
 }
 
+.btn-tab-remove:hover {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
 
 /* MEDIA STYLES */
 

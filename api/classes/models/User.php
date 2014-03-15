@@ -30,6 +30,14 @@ class User extends DBModel {
         return array('id','username','password','session_token');
     }
     
+    public function updateToken($token, $db) {
+        $query = "UPDATE `user` SET `session_token` = :token WHERE `id` = :id";
+        $db->prepareQuery($query);
+        $db->bindParam(":token", $token, DatabaseConnection::ConvertTypeToPDOParam("string"));
+        $db->bindParam(":id", $this->id, DatabaseConnection::ConvertTypeToPDOParam("integer"));
+        $db->execute();
+    }
+    
 }
 
 ?>

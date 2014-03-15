@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-function BoardsCtrl($scope, $rootScope,$http) {
+function BoardsCtrl($scope, $rootScope,$http, $state) {
     //alert("init BoardsCtrl");
     //var $parent = $rootScope.$$childTail;
     $scope.activeBoardId = -1;
@@ -12,6 +12,8 @@ function BoardsCtrl($scope, $rootScope,$http) {
             id:-1,
             name:"Loading..."
     }];
+
+    $scope.boardLoadCallback = function() {};
     
     $scope.getCurrentDateStr = function() {
         var m_names = new Array("January", "February", "March", 
@@ -39,6 +41,19 @@ function BoardsCtrl($scope, $rootScope,$http) {
 
     //$scope.$watch('activeBoardId', $scope.setActive);
     
+    $scope.getBoardIndexById = function(bid) {
+        for(var i in $scope.boards) {
+            if($scope.boards[i].id == bid) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    $scope.getBoardById = function(bid) {
+        return $scope.boards[$scope.getBoardIndexById(bid)];
+    }
+    
     $scope.setActive = function() {
         //alert("Active changed");
         angular.forEach($scope.boards, function(board) {
@@ -64,6 +79,8 @@ function BoardsCtrl($scope, $rootScope,$http) {
 //                active:false
 //            }];
         $scope.setActive();
+        $scope.boardLoadCallback();
+        
         }).error(function(data, status, headers, config) {
             //alert("failed");
             
@@ -103,6 +120,37 @@ function BoardsCtrl($scope, $rootScope,$http) {
            });
        }
    } 
+   
+   $scope.editBoard = function(editName, id) {
+      $http({
+          url:"/todo/api/board",
+          method:"PUT",
+          data:{bName:editName, bid:id}
+      }).success(function(data, status, headers, config) {
+          var i = $scope.getBoardIndexById(id);
+          $scope.boards[i].name = editName;
+          document.title = editName + " - ToDo";
+          //callback();
+      }).error(function(data, status, headers, config){
+          console.log(data);
+      });
+//      callback();
+   }
+   
+   $scope.removeBoard = function(bid) {
+       $http({
+          url:"/todo/api/board",
+          method:"DELETE",
+          data:{bid:bid}
+      }).success(function(data, status, headers, config) {
+          var index = $scope.getBoardIndexById(bid);
+          $scope.boards.splice(index, 1);
+          $state.transitionTo('main');
+          //callback();
+      }).error(function(data, status, headers, config){
+          console.log(data);
+      });
+   }
     
     $scope.test = function(testValue) {
         //alert("Hello board");

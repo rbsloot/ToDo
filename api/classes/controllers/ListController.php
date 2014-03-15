@@ -57,6 +57,10 @@ class ListController extends BaseController {
                         break;
                     case "task":
                         $valuesArray = explode($separator, $value);
+                        if($propName == 'id' && ($valuesArray[0] == null || $valuesArray[0] == "")) {
+                            $list['tasks'] = array();
+                            break 2;
+                        }
                         for($i = 0; $i < count($valuesArray);$i++) {
                             if(!isset($list['tasks'][$i])) {
                                 $list['tasks'][$i] = array();

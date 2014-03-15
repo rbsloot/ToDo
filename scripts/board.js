@@ -3,15 +3,48 @@
  * and open the template in the editor.
  */
 
-function BoardCtrl($scope, $stateParams, $http) {
+function BoardCtrl($scope, $stateParams, $state, $http) {
     $scope.boardid = $stateParams.boardid;
     $scope.taskid = $stateParams.taskid;
+    
+    $scope.checkValidBoard = function() {
+        var $parent = $scope.$parent;
+        var valid = false;
+        if($parent.boards.length > 0) {
+            angular.forEach($parent.boards, function(board) {
+                if(board.id == $scope.boardid) {
+                    valid = true;
+                }
+            });
+        }
+        if(!valid) {
+            $state.transitionTo('main');
+        }
+    }
     
     $scope.init = function() {
         //alert("start broadcast");
         //console.log($stateParams);
         $scope.$root.$broadcast("tabChanged",{id:$stateParams.boardid});
         angular.element($(".board-container")).scope().activeBoardId = $scope.boardid;
+        
+        var $parent = $scope.$parent;
+        var cb = $parent.boardLoadCallback;
+        if($parent.boards.length == 1 && $parent.boards[0].id == -1) {
+            $parent.boardLoadCallback = function() {
+                cb();
+                var board = $parent.getBoardById($scope.boardid);
+                if(board) {
+                    document.title = board.name + " - ToDo";
+                }
+            } 
+        } else if($parent.boards.length > 0) {
+            var board = $parent.getBoardById($scope.boardid);
+            if(board) {
+                document.title = board.name + " - ToDo";
+            }
+        }
+        //$scope.checkValidBoard();
     }
     
     $scope.board = {

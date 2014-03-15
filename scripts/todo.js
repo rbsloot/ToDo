@@ -34,11 +34,13 @@ angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset'])
         }
     }).state('login', {
         url:'/login',
+        title: 'Login',
         views: {
             "dialog":{templateUrl:'templates/login.html', controller:'UserCtrl'}
         }
     }).state('register', {
         url:'/register',
+        title: 'Register',
         views: {
             "dialog":{templateUrl:'templates/register.html', controller:'UserCtrl'}
         }
@@ -63,6 +65,12 @@ angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset'])
         console.log(toState);
         console.log(toParams);
         console.log(fromState);
+        
+        if('title' in toState) {
+            document.title = toState.title + " - ToDo";
+        } else {
+            document.title = "ToDo";
+        }
         
         //console.log($location.path());
         

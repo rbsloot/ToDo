@@ -1,4 +1,4 @@
-INSERT INTO user (username, `password`, session_token) VALUES('test','test','test');
+INSERT INTO user (username, `password`, session_token) VALUES('test','test','c4ca4238a0b923820dcc509a6f75849b');
 
 INSERT INTO board (`name`) VALUES ("MyBoard");
 INSERT INTO board (`name`) VALUES ("Board 2");

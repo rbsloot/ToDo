@@ -27,7 +27,8 @@ function UserCtrl($scope, $http, $state, $rootScope) {
     $scope.logout = function() {
            $http({
                 url:'/todo/api/user/logout',
-                method:'GET'
+                method:'GET',
+                params:{token:localStorage.token}
             }).success(function(data, status, headers, config){			
                 localStorage.removeItem("token");
                 $scope.errorMessage = null;

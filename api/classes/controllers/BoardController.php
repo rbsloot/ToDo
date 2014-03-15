@@ -72,10 +72,40 @@ class BoardController extends BaseController {
     
     public function put($request) {
         // Edit board data
+        $params = $request->parameters;
+        if(isset($params['bName'])) {
+            $bName = $params['bName'];
+            $bid = $params['bid'];
+            
+            $query = "UPDATE `board` SET `name` = :bname WHERE `id` = :bid";
+            $this->db->prepareQuery($query);
+            $this->db->bindParam(":bname", $bName, DatabaseConnection::ConvertTypeToPDOParam("string"));
+            $this->db->bindParam(":bid", $bid, DatabaseConnection::ConvertTypeToPDOParam("integer"));
+            $this->db->execute();
+            
+            header(BaseController::$HEADERS[200]);
+            return null;
+        }
+        header(BaseController::$HEADERS[404]);
+        return null;
     }
     
     public function delete($request) {
         // Delete board
+        $params = $request->parameters;
+        if(isset($params['bid'])) {
+            $bid = $params['bid'];
+            
+            $query = "DELETE FROM `board` WHERE `id` = :bid";
+            $this->db->prepareQuery($query);
+            $this->db->bindParam(":bid", $bid, DatabaseConnection::ConvertTypeToPDOParam("integer"));
+            $this->db->execute();
+            
+            header(BaseController::$HEADERS[200]);
+            return null;
+        }
+        header(BaseController::$HEADERS[404]);
+        return null;
     }
     
 }

@@ -41,6 +41,14 @@ angular.module('bootstrap.tabset', [])
           //console.log($scope);
           controller.selectTabWithId(args.id);
       });
+      
+      this.editBoard = function(editName, id) {
+          $scope.editBoard(editName, id);
+      }
+      
+      this.removeBoard = function(bid) {
+          $scope.removeBoard(bid);
+      }
 
 //      this.setTabTemplate = function (templateUrl) {
 //        $scope.templateUrl = templateUrl;
@@ -85,7 +93,8 @@ angular.module('bootstrap.tabset', [])
       templateUrl: '@'
     },
     link: function(scope, element, attrs, tabsetController) {
-
+        scope.editMode = false;
+        
         if(attrs.boardid)
             scope.id = attrs.boardid;
 //        if(!scope.board) {
@@ -93,6 +102,8 @@ angular.module('bootstrap.tabset', [])
 //        }
         
         tabsetController.addBoardTab(scope);
+        
+        scope.editName = scope.board.name;
         
 //        if(!attrs.boardid) {
 //            scope.board.active = !!element.data("active");
@@ -111,11 +122,35 @@ angular.module('bootstrap.tabset', [])
                 //tabsetController.setTabTemplate(scope.templateUrl);
             }
         });
+        
+        scope.editClick = function() {
+            if(scope.editMode) {
+                // Handle edit value, scope.editName
+                if(scope.editName != scope.board.name) {
+                    tabsetController.editBoard(scope.editName, scope.id);
+                }
+            }
+            scope.editMode = !scope.editMode;
+        }
+        
+        scope.removeClick = function() {
+            if(scope.editMode) {
+                scope.editMode = !scope.editMode;
+            } else {
+                //console.log(tabsetController);
+                tabsetController.removeBoard(scope.id);
+            }
+        }
     },
     template:
       '<li ng-class="{active: board.active}">' +
         //'<button class="close-btn" type="button">X</button>' +
-        '<a ui-sref="main.board({boardid:board.id})" ng-click="select()">{{ board.name }}</a>' +
+        '<a style="display:inline-flex;" ui-sref="main.board({boardid:board.id})" ng-click="select()">' +
+            '<span ng-show="!editMode">{{ board.name }} </span>' +
+            '<form ng-submit="editClick()" ng-show="editMode" class="form-inline"><input type="text" ng-model="editName" class="form-control input-tab input-sm" placeholder="Board name" id="edit-board-text" required /></form>' +
+            '<button ng-click="editClick()" class="btn btn-default btn-xs" type="button"><i class="glyphicon glyphicon-pencil"> </i></button>' +
+            ' ' +
+            '<button ng-click="removeClick()" class="btn-tab-remove btn btn-default btn-xs" type="button"><i class="glyphicon glyphicon-remove"> </i></button></a>' +
       '</li>'
   };
 })

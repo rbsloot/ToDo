@@ -2,6 +2,7 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+DROP SCHEMA IF EXISTS `todo` ;
 CREATE SCHEMA IF NOT EXISTS `todo` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 USE `todo` ;
 
@@ -39,7 +40,7 @@ CREATE  TABLE IF NOT EXISTS `todo`.`list` (
   CONSTRAINT `fk_list_board1`
     FOREIGN KEY (`board_id` )
     REFERENCES `todo`.`board` (`id` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -59,7 +60,7 @@ CREATE  TABLE IF NOT EXISTS `todo`.`task` (
   CONSTRAINT `fk_task_list1`
     FOREIGN KEY (`list_id` )
     REFERENCES `todo`.`list` (`id` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -81,7 +82,7 @@ CREATE  TABLE IF NOT EXISTS `todo`.`user_has_board` (
   CONSTRAINT `fk_user_has_board_board1`
     FOREIGN KEY (`board_id` )
     REFERENCES `todo`.`board` (`id` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
