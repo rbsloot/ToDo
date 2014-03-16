@@ -78,6 +78,15 @@ class ListController extends BaseController {
     
     public function post($request) {
         // Create list for board
+			$params = $request->parameters;
+            $listName = $params["name"];
+            $boardId = $params["boardId"];
+			
+			$query = "INSERT INTO list (name, board_id) VALUES (:listName, :boardId)";
+			$this->db->prepareQuery($query);
+			$this->db->bindParam(":boardId", $boardId, DatabaseConnection::ConvertTypeToPDOParam("string"));
+			$this->db->bindParam(":listName", $listName, DatabaseConnection::ConvertTypeToPDOParam("string"));
+			$this->db->execute();
     }
     
     public function put($request) {
@@ -86,6 +95,18 @@ class ListController extends BaseController {
     
     public function delete($request) {
         // Delete list
+			$params = $request->parameters;
+            $listId = $params["id"];
+			
+			if(!empty($listId))
+			{
+				$query = "DELETE FROM list WHERE id= :id";
+				$this->db->prepareQuery($query);
+				$this->db->bindParam(":id", $listId, DatabaseConnection::ConvertTypeToPDOParam("string"));
+				$this->db->execute();
+			} else {
+				header(BaseController::$HEADERS[404]);
+			}
     }
     
 }
