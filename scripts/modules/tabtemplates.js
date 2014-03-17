@@ -148,9 +148,9 @@ angular.module('bootstrap.tabset', [])
         '<a style="display:inline-flex;" ui-sref="main.board({boardid:board.id})" ng-click="select()">' +
             '<span ng-show="!editMode">{{ board.name }} </span>' +
             '<form ng-submit="editClick()" ng-show="editMode" class="form-inline"><input type="text" ng-model="editName" class="form-control input-tab input-sm" placeholder="Board name" id="edit-board-text" required /></form>' +
-            '<button ng-click="editClick()" class="btn btn-default btn-xs" type="button"><i class="glyphicon glyphicon-pencil"> </i></button>' +
+            '<button ng-click="editClick()" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-pencil"></span></button>' +
             ' ' +
-            '<button ng-click="removeClick()" class="btn-tab-remove btn btn-default btn-xs" type="button"><i class="glyphicon glyphicon-remove"> </i></button></a>' +
+            '<button ng-click="removeClick()" class="btn-tab-remove btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-remove"></span></button></a>' +
       '</li>'
   };
 })
