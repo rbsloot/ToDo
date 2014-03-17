@@ -81,12 +81,70 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
         });
     }
     
+	$scope.addList = function(list) {
+		list.boardId = $scope.boardid;
+		$http({
+                url:'/todo/api/list/post',
+                method:'POST',
+                data:list
+            }).success(function(data, status, headers, config){			
+                $scope.errorMessage = null;				
+				$scope.getLists();
+            }).error(function(data, status, headers, config) {
+				//An error has occured
+            });
+    }
+	
+	$scope.removeList = function(list) {
+		console.log(list);
+		$http({
+                url:'/todo/api/list/delete',
+                method:'DELETE',
+                params:list
+            }).success(function(data, status, headers, config){			
+                $scope.errorMessage = null;				
+				$scope.getLists();
+            }).error(function(data, status, headers, config) {
+				alert("lege waarde");
+            });
+    }
+	
+	$scope.addTask = function(task, list) {
+		task.listId = list.id;
+		$http({
+                url:'/todo/api/task/post',
+                method:'POST',
+                data:task
+            }).success(function(data, status, headers, config){			
+                $scope.errorMessage = null;				
+				$scope.getLists();
+            }).error(function(data, status, headers, config) { 	
+				//An error has occured
+            });
+    }
+	
+	$scope.removeTask = function(task) {
+		console.log("hoi hoi");
+		console.log(task);
+		$http({
+                url:'/todo/api/task/delete',
+                method:'DELETE',
+                params:task
+            }).success(function(data, status, headers, config){			
+                $scope.errorMessage = null;				
+				$scope.getLists();
+            }).error(function(data, status, headers, config) {
+				alert("lege waarde");
+            });
+    }
     //$scope.board.lists = $scope.getBoardLists();
     
     $scope.testTask = function() {
         console.log($stateParams);
         alert("State params: " + $stateParams.boardid + ", " + $stateParams.taskid);
     }
+	
+	
     
     $scope.init();
     $scope.getLists();
