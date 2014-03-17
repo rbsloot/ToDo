@@ -82,59 +82,87 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
     }
     
 	$scope.addList = function(list) {
-		list.boardId = $scope.boardid;
-		$http({
-                url:'/todo/api/list/post',
+            list.board_id = $scope.boardid;
+            $http({
+                url:'/todo/api/list',
                 method:'POST',
                 data:list
             }).success(function(data, status, headers, config){			
-                $scope.errorMessage = null;				
-				$scope.getLists();
+//                $scope.errorMessage = null;				
+//                $scope.getLists();
+                list.id = data.id;
+                list.tasks = [];
+                $scope.board.lists.push(list);
             }).error(function(data, status, headers, config) {
 				//An error has occured
             });
     }
 	
 	$scope.removeList = function(list) {
-		console.log(list);
-		$http({
-                url:'/todo/api/list/delete',
+//            console.log(list);
+            $http({
+                url:'/todo/api/list',
                 method:'DELETE',
-                params:list
+                data:{id:list.id}
             }).success(function(data, status, headers, config){			
-                $scope.errorMessage = null;				
-				$scope.getLists();
+//                $scope.errorMessage = null;				
+//                $scope.getLists();
+                for(var i in $scope.board.lists) {
+                    if(list.id == $scope.board.lists[i].id) {
+                        $scope.board.lists.splice(i, 1);
+                        break;
+                    }
+                }
             }).error(function(data, status, headers, config) {
-				alert("lege waarde");
+		
             });
     }
 	
 	$scope.addTask = function(task, list) {
-		task.listId = list.id;
-		$http({
-                url:'/todo/api/task/post',
+            task.list_id = list.id;
+            task.name = task.addname;
+            task.end_date = null;
+            $http({
+                url:'/todo/api/task',
                 method:'POST',
                 data:task
             }).success(function(data, status, headers, config){			
-                $scope.errorMessage = null;				
-				$scope.getLists();
+//                $scope.errorMessage = null;				
+//                $scope.getLists();
+                task.id = data.id;
+                angular.forEach($scope.board.lists, function(l) {
+                    if(l.id == list.id) {
+                        task.end_date = "0000-00-00 00:00:00";
+                        list.tasks.push(task);
+                    }
+                });
             }).error(function(data, status, headers, config) { 	
 				//An error has occured
             });
     }
 	
 	$scope.removeTask = function(task) {
-		console.log("hoi hoi");
-		console.log(task);
-		$http({
-                url:'/todo/api/task/delete',
+//            console.log(task);
+            $http({
+                url:'/todo/api/task',
                 method:'DELETE',
-                params:task
+                data:{id:task.id}
             }).success(function(data, status, headers, config){			
-                $scope.errorMessage = null;				
-				$scope.getLists();
+//                $scope.errorMessage = null;				
+//                $scope.getLists();
+                var found = false;
+                angular.forEach($scope.board.lists, function(l) {
+                    for(var i in l.tasks) {
+                        if(l.tasks[i].id == task.id) {
+                            l.tasks.splice(i, 1);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(found) return false;
+                });
             }).error(function(data, status, headers, config) {
-				alert("lege waarde");
+                
             });
     }
     //$scope.board.lists = $scope.getBoardLists();

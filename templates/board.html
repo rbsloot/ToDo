@@ -1,17 +1,17 @@
 <div ui-view="main-dialog"></div>
 
 <div ng-repeat="list in board.lists" class="panel panel-primary task-list" listid="{{list.id}}">
-    <div class="panel-heading">
-		
+    <div class="panel-heading" style="position: relative;">
+        <!--<button class="close-btn" ng-click="removeList(list)">X</button>-->
+        <button class="btn btn-tab-remove btn-default btn-xs pull-right" type="button" ng-click="removeList(list)"><span class="glyphicon glyphicon-remove"></span></button>
         <h3 class="panel-title">{{list.name}} </h3>
-		<a class="btn btn-default" ng-click="removeList(list)">X</a>
     </div>
  <!--  <div class="panel-body">
     
   </div> -->
     <ul class="list-group">		
         <li ng-repeat="task in list.tasks" class="list-group-item">	
-			<button class="close-btn" ng-click="removeTask(task)">X</button>
+            <button class="close-btn" ng-click="removeTask(task)">X</button>
             <a ui-sref="main.board.edittask({boardid:board.id,listid:list.id,taskid:task.id})" class="task" taskid="{{task.id}}" draggable="true" ng-click="test()">
                 <div class="task-description">
                     {{task.name}}
@@ -27,7 +27,7 @@
 
   <div class="panel-footer">
             <form class="form-inline" ng-submit="addTask(task, list)" >
-                <input type="text" class="form-control" placeholder="Task name" ng-model="task.name" required>
+                <input type="text" class="form-control" placeholder="Task name" ng-model="task.addname" required>
                 <button type="submit" class="btn btn-primary">Add</button>
             </form>
     </div>
