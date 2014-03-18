@@ -1,7 +1,7 @@
 <div class="dialogbackground">
     <div class="basedialog task-dialog">
         <a ui-sref="main.board({boardid:board.id})" class="close-btn">X</a>
-        <form>
+        <form ng-submit="editTask(selectedTask)">
             <fieldset>
                 <legend>{{selectedTask.name}}</legend>
                 <div class="form-group">

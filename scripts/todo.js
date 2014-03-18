@@ -30,7 +30,8 @@ angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset'])
     $stateProvider.state('main', {
         url:'/home',
         views: {
-            "content":{templateUrl:'templates/main.html', controller:'BoardsCtrl'}
+            "content":{templateUrl:'templates/main.html', controller:'BoardsCtrl'},
+            "schedule":{templateUrl:'templates/schedule.html', controller:'ScheduleCtrl'}
         }
     }).state('login', {
         url:'/login',

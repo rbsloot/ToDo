@@ -1,34 +1,5 @@
 
 
-<div class="schedule-today white-bg transition-delay">
-                <div class="schedule-content">
-                    <h4 style="text-align:center;">Schedule for today ({{currentDate}})</h4>
-                    <hr/>
-                    <h4>Planned today</h4>
-                    <hr/>
-
-                    <div class="task" draggable="true">
-                        <!--<button class="close-btn">X</button>-->
-                        <div class="task-description">
-                            Description here
-                        </div>
-                        <span class="task-end-date">10-4-2014</span>
-                        <span class="task-status success"></span>
-                    </div>
-
-                    <h4>Deadline today</h4>
-                    <hr/>
-                    
-                    <div class="task" draggable="true">
-                        <div class="task-description">
-                            Description here
-                        </div>
-                        <span class="task-end-date">3-3-2014</span>
-                        <span class="task-status error"></span>
-                    </div>
-                    
-                </div>
-            </div>
             <!--<div class="board-container">-->
                 <ng-tabset>
                     <ng-board-tab ng-repeat="board in boards" boardid="{{board.id}}">

@@ -24,7 +24,8 @@ and open the template in the editor.
         <script src="scripts/boards.js"></script>
         <script src="scripts/board.js"></script>
         <script src="scripts/task.js"></script>
-		<script src="scripts/user.js"></script>
+	<script src="scripts/user.js"></script>
+        <script src="scripts/schedule.js"></script>
         <link href="css/main.css" rel="stylesheet" />
     </head>
     <body ng-app="todo" ng-controller="MainCtrl">
@@ -59,7 +60,7 @@ and open the template in the editor.
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav">
-                  <li><a href="#" id="schedule-toggler">Schedule</a></li>
+                  <li><a href="#" id="schedule-toggler" ng-show="isLogged">Schedule</a></li>
 <!--                  <li><a href="#">Link</a></li>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
@@ -81,9 +82,9 @@ and open the template in the editor.
                   <button type="submit" class="btn btn-default">Submit</button>
                 </form>-->
                 <ul class="nav navbar-nav navbar-right">
-                  <li><a ui-sref="login">Login</a></li>
-                  <li><a ui-sref="register">Register</a></li>
-                  <li ng-controller="UserCtrl"><a href="" ng-click="logout()">Logout</a></li>
+                  <li><a ui-sref="login" ng-show="!isLogged">Login</a></li>
+                  <li><a ui-sref="register" ng-show="!isLogged">Register</a></li>
+                  <li ng-controller="UserCtrl" ng-show="isLogged"><a href="" ng-click="logout()">Logout</a></li>
 <!--                  <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -108,13 +109,9 @@ and open the template in the editor.
 <div ui-view="dialog"></div>
         <!-- START CONTENT -->
         <div class="main-content-placement">
-            <div class="main-content" ui-view="content">
-                 <ng-tabset ng-controller="BoardsCtrl">
-                    <ng-tab ng-repeat="board in boards" heading="{{board.name}}" active="board.active">
-                        <!--<tab-heading></tab-heading>-->
-                        <div>Tab content for {{board.name}}</div>
-                    </ng-tab>
-                </ng-tabset>
+            <div class="main-content">
+                <div class="schedule-today white-bg transition-delay" ui-view="schedule"></div>
+                <div ui-view="content"></div>
             </div>
         </div>
         

@@ -10,15 +10,17 @@
     
   </div> -->
     <ul class="list-group">		
-        <li ng-repeat="task in list.tasks" class="list-group-item">	
-            <button class="close-btn" ng-click="removeTask(task)">X</button>
-            <a ui-sref="main.board.edittask({boardid:board.id,listid:list.id,taskid:task.id})" class="task" taskid="{{task.id}}" draggable="true" ng-click="test()">
-                <div class="task-description">
-                    {{task.name}}
-                </div>
-                <span class="task-end-date">{{task.end_date}}</span>
-                <span ng-class="{completed:'success',not_completed:'error'}[task.status]" class="task-status"></span>
-            </a>
+        <li ng-repeat="task in list.tasks" class="list-group-item">
+            <div class="task" draggable="true">
+                <button class="close-btn" ng-click="removeTask(task)">X</button>
+                <a ui-sref="main.board.edittask({boardid:board.id,listid:list.id,taskid:task.id})" taskid="{{task.id}}">
+                    <div class="task-description">
+                        {{task.name}}
+                    </div>
+                    <span class="task-end-date">{{task.end_date}}</span>
+                    <span ng-class="{completed:'success',not_completed:'error'}[task.status]" class="task-status"></span>
+                </a>
+            </div>
         </li>
 <!--                                <li class="list-group-item"><h4 class="list-group-item-heading">Heading</h4><p class="list-group-item-text">Cras justo odio</p></li>
       <li class="list-group-item">Porta ac consectetur ac</li>

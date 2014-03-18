@@ -67,7 +67,7 @@
     font-size: 15px;
     text-decoration: none;
     color: white;
-    background-color: rgb(109, 14, 14);;
+    background-color: #d9534f;
 }
 
 .full-width {
@@ -154,11 +154,18 @@
     cursor:pointer;
     position:relative;
     display:block;
+}
+
+.task:hover {
+    background-color: rgb(241, 241, 241);
+}
+
+.task a {
     color: black;
     text-decoration: none;
 }
 
-.task:hover {
+.task a:hover {
     color:black;
     text-decoration: none;
 }
@@ -208,6 +215,10 @@
     min-width: 450px;
     padding: 0 10px;
     top: 20%;
+}
+
+.schedule-task {
+    margin-bottom: 5px;
 }
 
 .schedule-today {
@@ -268,7 +279,7 @@
         width: 95%;
     }
     
-    .login-dialog {
+    .login-dialog, .task-dialog {
         top:0;
         bottom:0;
         right:0;

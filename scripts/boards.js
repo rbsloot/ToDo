@@ -14,21 +14,6 @@ function BoardsCtrl($scope, $rootScope,$http, $state) {
     }];
 
     $scope.boardLoadCallback = function() {};
-    
-    $scope.getCurrentDateStr = function() {
-        var m_names = new Array("January", "February", "March", 
-        "April", "May", "June", "July", "August", "September", 
-        "October", "November", "December");
-
-        var d = new Date();
-        var curr_date = d.getDate();
-        var curr_month = d.getMonth();
-        var curr_year = d.getFullYear();
-        
-        return curr_date + " " + m_names[curr_month] + " " + curr_year;
-    }
-    
-    $scope.currentDate = $scope.getCurrentDateStr();
 //    [{
 //            id:3,
 //            name:"MyBoard",
@@ -151,14 +136,4 @@ function BoardsCtrl($scope, $rootScope,$http, $state) {
           console.log(data);
       });
    }
-    
-    $scope.test = function(testValue) {
-        //alert("Hello board");
-        console.log(testValue);
-        if(testValue) {
-            alert("Testval: "+testValue);
-        }
-        
-        console.log("Hello board");
-    }
 }

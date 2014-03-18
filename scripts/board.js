@@ -150,30 +150,50 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
             }).success(function(data, status, headers, config){			
 //                $scope.errorMessage = null;				
 //                $scope.getLists();
-                var found = false;
-                angular.forEach($scope.board.lists, function(l) {
+                
+                $scope.getTaskWithId(task.id, function(l, i) {
+                    l.tasks.splice(i, 1);
+                });
+            }).error(function(data, status, headers, config) {
+                
+            });
+    }
+    
+    $scope.editTask = function(task) {
+        task.end_date = task.end_date.replace("T", " ");
+        var $parent = $scope.$parent;
+        $http({
+            url:"/todo/api/task",
+            method:"PUT",
+            data:task
+        }).success(function(data, status, headers, config){
+            $scope.getTaskWithId(task.id, function(l, i, $parent) {
+                l.tasks[i] = task;
+            }, $parent.board.lists);
+            //$parent.board.lists = $scope.board.lists;
+        }).error(function(data, status, headers, config) {
+            
+        });
+        
+        $state.transitionTo('main.board',{boardid:$scope.boardid});
+    }
+    
+    $scope.getTaskWithId = function(id, handler, bLists) {
+        var found = false;
+        var lists = (bLists) ? bLists : $scope.board.lists ;
+        angular.forEach(lists, function(l) {
                     for(var i in l.tasks) {
-                        if(l.tasks[i].id == task.id) {
-                            l.tasks.splice(i, 1);
+                        if(l.tasks[i].id == id) {
+                            handler(l, i);
                             found = true;
                             break;
                         }
                     }
                     if(found) return false;
                 });
-            }).error(function(data, status, headers, config) {
-                
-            });
     }
     //$scope.board.lists = $scope.getBoardLists();
-    
-    $scope.testTask = function() {
-        console.log($stateParams);
-        alert("State params: " + $stateParams.boardid + ", " + $stateParams.taskid);
-    }
-	
-	
-    
+
     $scope.init();
     $scope.getLists();
 }
