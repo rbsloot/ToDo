@@ -115,6 +115,7 @@ function BoardsCtrl($scope, $rootScope,$http, $state) {
           var i = $scope.getBoardIndexById(id);
           $scope.boards[i].name = editName;
           document.title = editName + " - ToDo";
+          $scope.broadcastItemChanged();
           //callback();
       }).error(function(data, status, headers, config){
           console.log(data);
@@ -131,9 +132,14 @@ function BoardsCtrl($scope, $rootScope,$http, $state) {
           var index = $scope.getBoardIndexById(bid);
           $scope.boards.splice(index, 1);
           $state.transitionTo('main');
+          $scope.broadcastItemChanged();
           //callback();
       }).error(function(data, status, headers, config){
           console.log(data);
       });
    }
+   
+   $scope.broadcastItemChanged = function() {
+        $scope.$root.$broadcast("itemChanged");
+    }
 }

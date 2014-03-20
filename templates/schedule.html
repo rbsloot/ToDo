@@ -1,5 +1,5 @@
                 <div class="schedule-content">
-                    <h4 style="text-align:center;">Schedule for: <br/> ({{currentDate}})</h4>
+                    <h4 style="text-align:center;">Scheduled for: <br/> ({{currentDate}})</h4>
                     <hr/>
 <!--                    <h4>Planned today</h4>
                     <hr/>
@@ -12,18 +12,24 @@
                         <span class="task-end-date">10-4-2014</span>
                         <span class="task-status success"></span>
                     </div>-->
-                    <button type="button" ng-click="getSchedule()" class="btn btn-default btn-sm pull-right"><span class="glyphicon glyphicon-refresh"></span></button>
-                    <h4>Deadline today</h4>
-                    <hr/>
-                    
-                    <div class="task schedule-task" ng-repeat="task in tasks">
-                        <a ui-sref="main.board.edittask({boardid:task.board$id,listid:task.list$id,taskid:task.task$id})" taskid="{{task.task$id}}" draggable="true" ng-click="test()">
-                            <div class="task-description">
-                                {{task.task$name}}
+                    <!--<button type="button" ng-click="getSchedule()" class="btn btn-default btn-sm pull-right"><span class="glyphicon glyphicon-refresh"></span></button>-->
+                    <h4>Upcoming deadlines</h4>
+                    <div class="schedule-container hor-sep-top">
+                        <div class="schedule-board-group" ng-repeat="board in scheduleData">
+                            <button class="schedule-board-name" type="button">{{board.name}}</button>
+                            <div class="schedule-list-group" ng-repeat="list in board.lists">
+                                <button class="schedule-list-name" type="button">{{list.name}}</button>
+                                <div ng-repeat="task in list.tasks" class="task schedule-task">
+                                    <a ui-sref="main.board.edittask({boardid:board.id,listid:list.id,taskid:task.id})" taskid="{{task.id}}" draggable="true">
+                                        <div class="task-name">
+                                            {{task.name}}
+                                        </div>
+                                        <span class="task-end-date">{{task.end_date}}</span>
+                                        <span ng-class="{completed:'success',not_completed:'error'}[task.status]" class="task-status"></span>
+                                    </a>
+                                </div>
                             </div>
-                            <span class="task-end-date">{{task.task$end_date}}</span>
-                            <span ng-class="{completed:'success',not_completed:'error'}[task.task$status]" class="task-status"></span>
-                        </a>
+                        </div>
                     </div>
-                    
+                
                 </div>

@@ -93,6 +93,7 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
                 list.id = data.id;
                 list.tasks = [];
                 $scope.board.lists.push(list);
+                $scope.broadcastItemChanged();
             }).error(function(data, status, headers, config) {
 				//An error has occured
             });
@@ -113,6 +114,7 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
                         break;
                     }
                 }
+                $scope.broadcastItemChanged();
             }).error(function(data, status, headers, config) {
 		
             });
@@ -136,6 +138,7 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
                         list.tasks.push(task);
                     }
                 });
+                $scope.broadcastItemChanged();
             }).error(function(data, status, headers, config) { 	
 				//An error has occured
             });
@@ -154,6 +157,7 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
                 $scope.getTaskWithId(task.id, function(l, i) {
                     l.tasks.splice(i, 1);
                 });
+                $scope.broadcastItemChanged();
             }).error(function(data, status, headers, config) {
                 
             });
@@ -170,6 +174,7 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
             $scope.getTaskWithId(task.id, function(l, i, $parent) {
                 l.tasks[i] = task;
             }, $parent.board.lists);
+            $scope.broadcastItemChanged();
             //$parent.board.lists = $scope.board.lists;
         }).error(function(data, status, headers, config) {
             
@@ -193,6 +198,10 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
                 });
     }
     //$scope.board.lists = $scope.getBoardLists();
+    
+    $scope.broadcastItemChanged = function() {
+        $scope.$root.$broadcast("itemChanged");
+    }
 
     $scope.init();
     $scope.getLists();

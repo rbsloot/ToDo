@@ -10,20 +10,32 @@ $(document).ready(function() {
         $(".board-container").toggleClass("transition-delay").toggleClass("full-width");
     });
     
-    $("#board2").isotope({
-        itemSelector:"#board2 > .task-list"
+    $(".main-content").on("click", ".schedule-board-name, .schedule-list-name", function() {
+        $(this).toggleClass("closed");
+        if($(this).hasClass("schedule-board-name")) {
+            $(this).parent().find(".schedule-list-group").toggle();
+//            $(this).parent().find(".schedule-list-name").toggleClass("closed");
+        }
+        else if($(this).hasClass("schedule-list-name")) {
+            $(this).parent().find(".task").toggle();
+        }
+        
     });
     
-    $(".task-list").on('dragstart', function(e) {
-        //e.originalEvent.dataTransfer.setData("task-id", e.target.id);
-    }).on("dragover", function(e) {
-        e.preventDefault();
-        $(this).css("border", "3px dashed");
-    }).on("drop", function(e) {
-        e.preventDefault();
-        //$(this).append(document.getElementById(e.originalEvent.dataTransfer.getData("geo-content-id")));
-        $(this).css("border", "none");
-    }).on("dragleave", function() {
-        $(this).css("border", "none");
-    });
+//    $("#board2").isotope({
+//        itemSelector:"#board2 > .task-list"
+//    });
+    
+//    $(".task-list").on('dragstart', function(e) {
+//        //e.originalEvent.dataTransfer.setData("task-id", e.target.id);
+//    }).on("dragover", function(e) {
+//        e.preventDefault();
+//        $(this).css("border", "3px dashed");
+//    }).on("drop", function(e) {
+//        e.preventDefault();
+//        //$(this).append(document.getElementById(e.originalEvent.dataTransfer.getData("geo-content-id")));
+//        $(this).css("border", "none");
+//    }).on("dragleave", function() {
+//        $(this).css("border", "none");
+//    });
 });

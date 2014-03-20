@@ -14,7 +14,7 @@
             <div class="task" draggable="true">
                 <button class="close-btn" ng-click="removeTask(task)">X</button>
                 <a ui-sref="main.board.edittask({boardid:board.id,listid:list.id,taskid:task.id})" taskid="{{task.id}}">
-                    <div class="task-description">
+                    <div class="task-name">
                         {{task.name}}
                     </div>
                     <span class="task-end-date">{{task.end_date}}</span>
