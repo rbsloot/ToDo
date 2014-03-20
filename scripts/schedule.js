@@ -5,7 +5,8 @@
 
 function ScheduleCtrl($scope, $http) {
     $scope.scheduleDays = 7;
-    $scope.scheudleData = [];
+    $scope.changingDays = $scope.scheduleDays;
+    $scope.scheduleData = [];
     
     $scope.getSchedule = function() {
         $http({
@@ -26,14 +27,18 @@ function ScheduleCtrl($scope, $http) {
         "October", "November", "December");
 
         var d = new Date();
-        var curr_date = (addDays) ? d.getDate() + addDays : d.getDate();
+        if(parseInt(addDays)) d.setDate(d.getDate() + parseInt(addDays));
+        var curr_date = d.getDate();
         var curr_month = d.getMonth();
         var curr_year = d.getFullYear();
         
         return curr_date + " " + m_names[curr_month] + " " + curr_year;
     }
     
-    $scope.currentDate = $scope.getCurrentDateStr() + " - " + $scope.getCurrentDateStr($scope.scheduleDays);
+    $scope.setDateDiffStr = function() {
+        $scope.currentDate = $scope.getCurrentDateStr() + " - " + $scope.getCurrentDateStr($scope.scheduleDays);
+    }
+    
     
     $scope.groupSchedule = function() {
         var boards = [];
@@ -82,9 +87,38 @@ function ScheduleCtrl($scope, $http) {
         return obj;
     }
     
+    $scope.getRemainingTaskDays = function(task) {
+        var taskDate = new Date(task.end_date);
+        //var dTask = taskDate.getDate();
+        
+        var dNow = new Date();
+        //var curr_date = dNow.getDate();
+        
+        var date = Math.round((taskDate-dNow)/(1000*60*60*24));
+        return date;
+    }
+    
+    $scope.getRemainingTaskDaysString = function(task) {
+        var remaining = $scope.getRemainingTaskDays(task);
+        
+        switch(remaining) {
+            case 0:
+                return "Today";
+            case 1:
+                return "Tomorrow";
+            default:
+                return remaining + " days remaining";
+        }
+    }
+    
     $scope.$on("itemChanged", function() {
         $scope.getSchedule();
     });
     
+//    $scope.$watch("scheduleDays", function() {
+//        $scope.currentDate = $scope.getCurrentDateStr() + " - " + $scope.getCurrentDateStr($scope.scheduleDays);
+//    });
+
+    $scope.setDateDiffStr();
     $scope.getSchedule();
 }

@@ -373,6 +373,15 @@
     }
 }
 
+@media (max-width:950px) {
+    .board-container {
+        width:60%;
+    }
+    .schedule-today {
+        width:40%;
+    }
+}
+
 @media (min-width:1350px) {
     .board-container {
         width:75%;

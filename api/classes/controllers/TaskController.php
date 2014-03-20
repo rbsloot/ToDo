@@ -27,7 +27,7 @@ class TaskController extends BaseController {
     public function getScheduledTasksForUser($request) {
         $params = $request->parameters;
         $user = $params['_user'];
-        $days = (isset($params['days'])) ? $params['days'] : 6 ;
+        $days = ((isset($params['days'])) ? $params['days'] : 6 ) +1;
         
         $board = new Board();
         $list = new Lists();
