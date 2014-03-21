@@ -29,7 +29,7 @@
                                         <div class="task-name">
                                             {{task.name}}
                                         </div>
-                                        <span class="task-end-date">{{task.end_date}}</span>
+                                        <span class="task-end-date">Date: {{task.end_date.replace(" ", " - Time: ")}}</span>
                                         <span ng-class="{completed:'success',not_completed:'error'}[task.status]" class="task-status"></span>
                                         <div class="task-remaining-days"><b>{{getRemainingTaskDaysString(task)}}</b></div>
                                     </a>
