@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-function BoardCtrl($scope, $stateParams, $state, $http) {
+app.controller('BoardCtrl', function($scope, $stateParams, $state, $http) {
     $scope.boardid = $stateParams.boardid;
     $scope.taskid = $stateParams.taskid;
     
@@ -22,7 +22,7 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
         }
     }
     
-    $scope.init = function() {
+    function init() {
         //alert("start broadcast");
         //console.log($stateParams);
         $scope.$root.$broadcast("tabChanged",{id:$stateParams.boardid});
@@ -61,9 +61,9 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
             if($scope.taskid) {
                 $scope.setSelectedTask($scope.taskid);
             }
-			angular.forEach($scope.board.lists, function(list) {
-				list.editableName = list.name;
-			});
+            angular.forEach($scope.board.lists, function(list) {
+                    list.editableName = list.name;
+            });
             console.log("done loading lists");
         }).error(function(data, status, headers, config) {
             console.log("error loading lists");
@@ -97,7 +97,7 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
                 list.id = data.id;
                 list.tasks = [];
                 $scope.board.lists.push(list);
-				$scope.broadcastItemChanged();
+                $scope.broadcastItemChanged();
             }).error(function(data, status, headers, config) {
 				//An error has occured
             });
@@ -116,7 +116,7 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
                         break;
                     }
                 }
-				$scope.broadcastItemChanged();
+                $scope.broadcastItemChanged();
             }).error(function(data, status, headers, config) {
 		
             });
@@ -157,7 +157,7 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
                         list.tasks.push(task);
                     }					
                 });
-				$scope.broadcastItemChanged();
+                $scope.broadcastItemChanged();
             }).error(function(data, status, headers, config) { 	
 				//An error has occured
             });
@@ -176,7 +176,7 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
                 $scope.getTaskWithId(task.id, function(l, i) {
                     l.tasks.splice(i, 1);
                 });
-				$scope.broadcastItemChanged();
+                $scope.broadcastItemChanged();
             }).error(function(data, status, headers, config) {
                 
             });
@@ -193,7 +193,7 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
             $scope.getTaskWithId(task.id, function(l, i, $parent) {
                 l.tasks[i] = task;
             }, $parent.board.lists);
-			$scope.broadcastItemChanged();
+            $scope.broadcastItemChanged();
             //$parent.board.lists = $scope.board.lists;
         }).error(function(data, status, headers, config) {
             
@@ -206,53 +206,50 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
         var found = false;
         var lists = (bLists) ? bLists : $scope.board.lists ;
         angular.forEach(lists, function(l) {
-                    for(var i in l.tasks) {
-                        if(l.tasks[i].id == id) {
-                            handler(l, i);
-                            found = true;
-                            break;
-                        }
-                    }
-                    if(found) return false;
-                });
+            for(var i in l.tasks) {
+                if(l.tasks[i].id == id) {
+                    handler(l, i);
+                    found = true;
+                    break;
+                }
+            }
+            if(found) return false;
+        });
     }
 
-	
-	$scope.broadcastItemChanged = function() {
+    $scope.broadcastItemChanged = function() {
         $scope.$root.$broadcast("itemChanged");
     }
+	
+    $scope.toggleEditor = function(list) {
+        if(!list.editorEnabled)
+        {
+            console.log("edit gedrukt");
+            list.editableName = list.name;
+        } else {
+            console.log("pre");
+            console.log(list);
+            if(list.editableName)
+            {
+                    console.log("perfect");
+                    console.log(list);
+                    list.name = list.editableName;
+                    $scope.editList(list);
+            }
+        }
+        list.editorEnabled = !list.editorEnabled;
+    };
 
-    $scope.init();
+    $scope.removeListPressed = function(list) {
+        if(!list.editorEnabled)
+        {
+            $scope.removeList(list);
+        } else {
+            list.editorEnabled = !list.editorEnabled;
+        }
+
+    }
+
+    init();
     $scope.getLists();
-	
-	$scope.toggleEditor = function(list) {
-		if(!list.editorEnabled)
-		{
-			console.log("edit gedrukt");
-			list.editableName = list.name;
-		} else {
-			console.log("pre");
-			console.log(list);
-			if(list.editableName)
-			{
-				console.log("perfect");
-				console.log(list);
-				list.name = list.editableName;
-				$scope.editList(list);
-			}
-		}
-			list.editorEnabled = !list.editorEnabled;
-	};
-	
-	$scope.removeListPressed = function(list) {
-		if(!list.editorEnabled)
-		{
-			$scope.removeList(list);
-		} else {
-			list.editorEnabled = !list.editorEnabled;
-		}
-	
-	}
-
-
-}
+});

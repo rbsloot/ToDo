@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-function BoardsCtrl($scope, $rootScope,$http, $state) {
+app.controller('BoardsCtrl', function($scope, $rootScope,$http, $state) {
     //alert("init BoardsCtrl");
     //var $parent = $rootScope.$$childTail;
     $scope.activeBoardId = -1;
@@ -142,4 +142,4 @@ function BoardsCtrl($scope, $rootScope,$http, $state) {
    $scope.broadcastItemChanged = function() {
         $scope.$root.$broadcast("itemChanged");
     }
-}
+});

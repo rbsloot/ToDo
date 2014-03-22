@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-function UserCtrl($scope, $http, $state, $rootScope) {
+app.controller('UserCtrl', function($scope, $http, $state, $rootScope) {
         var $main = $rootScope.$$childHead;
         
 	$scope.login = function(user) {		
@@ -59,4 +59,4 @@ function UserCtrl($scope, $http, $state, $rootScope) {
 		} 
 
 	}
-}
+});

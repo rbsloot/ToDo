@@ -13,7 +13,7 @@
 		
     <ul class="list-group">		
         <li ng-repeat="task in list.tasks" class="list-group-item">
-            <div class="task" draggable="true">
+            <div class="task" draggable="true" title="{{task.description}}">
                 <button class="close-btn" ng-click="removeTask(task)">X</button>
                 <a ui-sref="main.board.edittask({boardid:board.id,listid:list.id,taskid:task.id})" taskid="{{task.id}}">
                     <div class="task-name">

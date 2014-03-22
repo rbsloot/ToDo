@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-function ScheduleCtrl($scope, $http) {
+app.controller('ScheduleCtrl', function($scope, $http) {
     $scope.scheduleDays = 7;
     $scope.changingDays = $scope.scheduleDays;
     $scope.scheduleData = [];
@@ -121,4 +121,4 @@ function ScheduleCtrl($scope, $http) {
 
     $scope.setDateDiffStr();
     $scope.getSchedule();
-}
+});

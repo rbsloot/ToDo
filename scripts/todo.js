@@ -62,19 +62,10 @@ var app = angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset']
     });
 });
 
-function MainCtrl($scope) {
+app.controller('MainCtrl', function ($scope) {
     $scope.isLogged = !!(localStorage.token);
      
     $scope.$back = function() {
         window.history.back();
     }
-}
-
-var controllers = {
-    MainCtrl: MainCtrl,
-    BoardsCtrl: BoardsCtrl,
-    BoardCtrl: BoardCtrl,
-    ScheduleCtrl: ScheduleCtrl,
-    UserCtrl: UserCtrl
-};
-app.controller(controllers);
+});
