@@ -3,29 +3,8 @@
  * and open the template in the editor.
  */
 
-angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset'])
+var app = angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset'])
 .config(function($stateProvider, $urlRouterProvider) {
-//    var main = {
-//        name: 'main',
-//        url: '/',
-//        templateUrl:'templates/main.html'
-//    },
-//    login = {
-//        name: 'login',
-//        url: '/login',
-//        parent: main,
-//        templateUrl: 'templates/login.html'
-//    },
-//    register = {
-//        name:'register',
-//        url:'/register',
-//        parent: main,
-//        templateUrl: 'templates/register.html'
-//    };
-//    
-//    $stateProvider.state(main);
-//    $stateProvider.state(login);
-//    $stateProvider.state(register);
     
     $stateProvider.state('main', {
         url:'/home',
@@ -62,21 +41,13 @@ angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset'])
 })
 .run(function($rootScope,$location, $state, $timeout) {
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState) {
-        console.log('routechangestart');
-        console.log(toState);
-        console.log(toParams);
-        console.log(fromState);
-        
         if('title' in toState) {
             document.title = toState.title + " - ToDo";
         } else {
             document.title = "ToDo";
         }
         
-        //console.log($location.path());
-        
         var $parent = $rootScope.$$childTail;
-        //console.log($parent.isLogged);
         // If not is logged in and page to go is not Login or Register Redirect to Login
         if(!$parent.isLogged && toState.name !== "login" && toState.name !== "register") {
             event.preventDefault();
@@ -88,15 +59,22 @@ angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset'])
                 $state.transitionTo('main');
             }
         }
-        //console.log($location.path());
-        //$location.path('/login');
     });
-})
-.controller('MainCtrl', function($scope) {
+});
+
+function MainCtrl($scope) {
     $scope.isLogged = !!(localStorage.token);
      
     $scope.$back = function() {
         window.history.back();
     }
-    
-});
+}
+
+var controllers = {
+    MainCtrl: MainCtrl,
+    BoardsCtrl: BoardsCtrl,
+    BoardCtrl: BoardCtrl,
+    ScheduleCtrl: ScheduleCtrl,
+    UserCtrl: UserCtrl
+};
+app.controller(controllers);

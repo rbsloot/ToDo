@@ -21,10 +21,11 @@
                     <h4 class="clearfix" style="margin-bottom:0;">Upcoming deadlines</h4>
                     <div class="schedule-container hor-sep-top">
                         <div class="schedule-board-group" ng-repeat="board in scheduleData">
+                            <!--<a ui-sref="main.board({boardid:board.id})" class="close-btn">Go</a>-->
                             <button class="schedule-board-name" type="button">{{board.name}}</button>
                             <div class="schedule-list-group" ng-repeat="list in board.lists">
                                 <button class="schedule-list-name" type="button">{{list.name}}</button>
-                                <div ng-repeat="task in list.tasks" class="task schedule-task">
+                                <div ng-repeat="task in list.tasks" class="task schedule-task" title="{{task.description}}">
                                     <a ui-sref="main.board.edittask({boardid:board.id,listid:list.id,taskid:task.id})" taskid="{{task.id}}" draggable="true">
                                         <div class="task-name">
                                             {{task.name}}
