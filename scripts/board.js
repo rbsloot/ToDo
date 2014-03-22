@@ -61,6 +61,9 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
             if($scope.taskid) {
                 $scope.setSelectedTask($scope.taskid);
             }
+			angular.forEach($scope.board.lists, function(list) {
+				list.editableName = list.name;
+			});
             console.log("done loading lists");
         }).error(function(data, status, headers, config) {
             console.log("error loading lists");
@@ -81,19 +84,20 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
         });
     }
     
-	$scope.addList = function(list) {
+	$scope.addList = function(addListName) {
+			var list = {};
+			list.name = addListName;
             list.board_id = $scope.boardid;
             $http({
                 url:'/todo/api/list',
                 method:'POST',
                 data:list
             }).success(function(data, status, headers, config){			
-//                $scope.errorMessage = null;				
-//                $scope.getLists();
+
                 list.id = data.id;
                 list.tasks = [];
                 $scope.board.lists.push(list);
-                $scope.broadcastItemChanged();
+				$scope.broadcastItemChanged();
             }).error(function(data, status, headers, config) {
 				//An error has occured
             });
@@ -106,23 +110,38 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
                 method:'DELETE',
                 data:{id:list.id}
             }).success(function(data, status, headers, config){			
-//                $scope.errorMessage = null;				
-//                $scope.getLists();
                 for(var i in $scope.board.lists) {
                     if(list.id == $scope.board.lists[i].id) {
                         $scope.board.lists.splice(i, 1);
                         break;
                     }
                 }
-                $scope.broadcastItemChanged();
+				$scope.broadcastItemChanged();
             }).error(function(data, status, headers, config) {
 		
             });
     }
 	
-	$scope.addTask = function(task, list) {
+	$scope.editList = function(list) {
+        $http({
+            url:"/todo/api/list",
+            method:"PUT",
+            data:list
+        }).success(function(data, status, headers, config){
+            $scope.broadcastItemChanged();
+			//zoek lijst
+            //$parent.board.lists = $scope.board.lists;
+        }).error(function(data, status, headers, config) {
+            
+        });
+        
+        $state.transitionTo('main.board',{boardid:$scope.boardid});
+    }
+	
+	$scope.addTask = function(addname, list) {
+			var task = {};
             task.list_id = list.id;
-            task.name = task.addname;
+            task.name = addname;
             task.end_date = null;
             $http({
                 url:'/todo/api/task',
@@ -136,9 +155,9 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
                     if(l.id == list.id) {
                         task.end_date = "0000-00-00 00:00:00";
                         list.tasks.push(task);
-                    }
+                    }					
                 });
-                $scope.broadcastItemChanged();
+				$scope.broadcastItemChanged();
             }).error(function(data, status, headers, config) { 	
 				//An error has occured
             });
@@ -157,7 +176,7 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
                 $scope.getTaskWithId(task.id, function(l, i) {
                     l.tasks.splice(i, 1);
                 });
-                $scope.broadcastItemChanged();
+				$scope.broadcastItemChanged();
             }).error(function(data, status, headers, config) {
                 
             });
@@ -174,7 +193,7 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
             $scope.getTaskWithId(task.id, function(l, i, $parent) {
                 l.tasks[i] = task;
             }, $parent.board.lists);
-            $scope.broadcastItemChanged();
+			$scope.broadcastItemChanged();
             //$parent.board.lists = $scope.board.lists;
         }).error(function(data, status, headers, config) {
             
@@ -197,12 +216,43 @@ function BoardCtrl($scope, $stateParams, $state, $http) {
                     if(found) return false;
                 });
     }
-    //$scope.board.lists = $scope.getBoardLists();
-    
-    $scope.broadcastItemChanged = function() {
+
+	
+	$scope.broadcastItemChanged = function() {
         $scope.$root.$broadcast("itemChanged");
     }
 
     $scope.init();
     $scope.getLists();
+	
+	$scope.toggleEditor = function(list) {
+		if(!list.editorEnabled)
+		{
+			console.log("edit gedrukt");
+			list.editableName = list.name;
+		} else {
+			console.log("pre");
+			console.log(list);
+			if(list.editableName)
+			{
+				console.log("perfect");
+				console.log(list);
+				list.name = list.editableName;
+				$scope.editList(list);
+			}
+		}
+			list.editorEnabled = !list.editorEnabled;
+	};
+	
+	$scope.removeListPressed = function(list) {
+		if(!list.editorEnabled)
+		{
+			$scope.removeList(list);
+		} else {
+			list.editorEnabled = !list.editorEnabled;
+		}
+	
+	}
+
+
 }

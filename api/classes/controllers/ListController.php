@@ -93,6 +93,22 @@ class ListController extends BaseController {
     
     public function put($request) {
         // Edit list data
+		$params = $request->parameters;
+        $listId = $params["id"];
+        $name = $params["name"];
+		
+        if(isset($listId)) {
+   
+            $query = "UPDATE `list` SET `name` = :name  WHERE `id` = :id";
+            
+            $this->db->prepareQuery($query);
+            $this->db->bindParam(":id", $listId, DatabaseConnection::ConvertTypeToPDOParam("integer"));
+            $this->db->bindParam(":name", $name, DatabaseConnection::ConvertTypeToPDOParam("string"));
+            $this->db->execute();
+            
+        } else {
+            header(BaseController::$HEADERS[404]);
+        }
     }
     
     public function delete($request) {
