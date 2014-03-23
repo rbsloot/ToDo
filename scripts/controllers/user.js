@@ -35,13 +35,14 @@ app.controller('UserCtrl', function($scope, $http, $state, $rootScope) {
                 $main.isLogged = false;
                 $state.transitionTo('login');
             }).error(function(data, status, headers, config) {
-                console.log(data);	
+                console.log(data);
+                localStorage.removeItem("token");
             });
     }
 	
-	$scope.register = function(user) {
-		console.log(user);
-		if(user.repeatPassword === user.password){	
+    $scope.register = function(user) {
+        console.log(user);
+        if(user.repeatPassword === user.password){	
             $http({
                 url:'/todo/api/user/register',
                 method:'POST',
@@ -54,9 +55,9 @@ app.controller('UserCtrl', function($scope, $http, $state, $rootScope) {
                     $scope.errorMessage = "User already exists";
                 }	
             });
-		}else {			
-			$scope.errorMessage = "Passwords are not the same";
-		} 
+        }else {			
+            $scope.errorMessage = "Passwords are not the same";
+        } 
 
-	}
+    }
 });

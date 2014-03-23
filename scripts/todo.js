@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+var root_path = '/todo/api';
 
 var app = angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset'])
 .config(function($stateProvider, $urlRouterProvider) {

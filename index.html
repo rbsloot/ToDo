@@ -33,6 +33,9 @@ and open the template in the editor.
         <script src="scripts/controllers/schedule.js"></script>
         
         <!--Load Models-->
+        <script src="scripts/models/boards.js"></script>
+        <script src="scripts/models/list.js"></script>
+        <script src="scripts/models/task.js"></script>
         
         <!--Load LayoutFiles-->
         <script src="scripts/layoutscript.js"></script>
@@ -86,7 +89,7 @@ and open the template in the editor.
         <div class="main-content-placement">
             <div class="main-content">
                 <div class="schedule-today white-bg transition-delay" ui-view="schedule"></div>
-                <div ui-view="content"></div>
+                <div ui-view="content" class="board-container"></div>
             </div>
         </div>
     </body>

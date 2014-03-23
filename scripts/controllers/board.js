@@ -3,24 +3,12 @@
  * and open the template in the editor.
  */
 
-app.controller('BoardCtrl', function($scope, $stateParams, $state, $http) {
+app.controller('BoardCtrl', function($scope, $stateParams, $state, list, task, $http) {
     $scope.boardid = $stateParams.boardid;
     $scope.taskid = $stateParams.taskid;
-    
-    $scope.checkValidBoard = function() {
-        var $parent = $scope.$parent;
-        var valid = false;
-        if($parent.boards.length > 0) {
-            angular.forEach($parent.boards, function(board) {
-                if(board.id == $scope.boardid) {
-                    valid = true;
-                }
-            });
-        }
-        if(!valid) {
-            $state.transitionTo('main');
-        }
-    }
+    $scope.board = {
+        id:$stateParams.boardid
+    };
     
     function init() {
         //alert("start broadcast");
@@ -47,27 +35,19 @@ app.controller('BoardCtrl', function($scope, $stateParams, $state, $http) {
         //$scope.checkValidBoard();
     }
     
-    $scope.board = {
-        id:$stateParams.boardid
-    };
-    
-    $scope.getLists = function() {
-        $http({
-            url:'/todo/api/list',
-            method:'GET',
-            params:{ bid:$scope.boardid }
-        }).success(function(data, status, headers, config) {
-            $scope.board.lists = data;
-            if($scope.taskid) {
-                $scope.setSelectedTask($scope.taskid);
-            }
-            angular.forEach($scope.board.lists, function(list) {
-                    list.editableName = list.name;
+    $scope.checkValidBoard = function() {
+        var $parent = $scope.$parent;
+        var valid = false;
+        if($parent.boards.length > 0) {
+            angular.forEach($parent.boards, function(board) {
+                if(board.id == $scope.boardid) {
+                    valid = true;
+                }
             });
-            console.log("done loading lists");
-        }).error(function(data, status, headers, config) {
-            console.log("error loading lists");
-        });
+        }
+        if(!valid) {
+            $state.transitionTo('main');
+        }
     }
     
     $scope.setSelectedTask = function(taskid) {
@@ -84,119 +64,77 @@ app.controller('BoardCtrl', function($scope, $stateParams, $state, $http) {
         });
     }
     
-	$scope.addList = function(addListName) {
-			var list = {};
-			list.name = addListName;
-            list.board_id = $scope.boardid;
-            $http({
-                url:'/todo/api/list',
-                method:'POST',
-                data:list
-            }).success(function(data, status, headers, config){			
-
-                list.id = data.id;
-                list.tasks = [];
-                $scope.board.lists.push(list);
-                $scope.broadcastItemChanged();
-            }).error(function(data, status, headers, config) {
-				//An error has occured
+    $scope.getLists = function() {
+        list.getLists($scope.boardid,function(data, status, headers, config) {
+            $scope.board.lists = data;
+            if($scope.taskid) {
+                $scope.setSelectedTask($scope.taskid);
+            }
+            angular.forEach($scope.board.lists, function(list) {
+                list.editableName = list.name;
             });
-    }
-	
-	$scope.removeList = function(list) {
-//            console.log(list);
-            $http({
-                url:'/todo/api/list',
-                method:'DELETE',
-                data:{id:list.id}
-            }).success(function(data, status, headers, config){			
-                for(var i in $scope.board.lists) {
-                    if(list.id == $scope.board.lists[i].id) {
-                        $scope.board.lists.splice(i, 1);
-                        break;
-                    }
-                }
-                $scope.broadcastItemChanged();
-            }).error(function(data, status, headers, config) {
-		
-            });
-    }
-	
-	$scope.editList = function(list) {
-        $http({
-            url:"/todo/api/list",
-            method:"PUT",
-            data:list
-        }).success(function(data, status, headers, config){
-            $scope.broadcastItemChanged();
-			//zoek lijst
-            //$parent.board.lists = $scope.board.lists;
-        }).error(function(data, status, headers, config) {
-            
+            console.log("done loading lists");
         });
-        
+    }
+    
+    $scope.addList = function(addListName) {
+        list.addList(addListName, $scope.boardid, function(data, status, headers, config){			
+            var l = data.list;
+            $scope.board.lists.push(l);
+            $scope.broadcastItemChanged();
+        });
+    }
+	
+    $scope.removeList = function(l) {
+        list.removeList(l.id, function(data, status, headers, config){			
+            for(var i in $scope.board.lists) {
+                if(l.id == $scope.board.lists[i].id) {
+                    $scope.board.lists.splice(i, 1);
+                    break;
+                }
+            }
+            $scope.broadcastItemChanged();
+        });
+    }
+
+    $scope.editList = function(l) {
+        list.editList(l, function(data, status, headers, config){
+            $scope.broadcastItemChanged();
+        });
+
         $state.transitionTo('main.board',{boardid:$scope.boardid});
     }
 	
-	$scope.addTask = function(addname, list) {
-			var task = {};
-            task.list_id = list.id;
-            task.name = addname;
-            task.end_date = null;
-            $http({
-                url:'/todo/api/task',
-                method:'POST',
-                data:task
-            }).success(function(data, status, headers, config){			
-//                $scope.errorMessage = null;				
-//                $scope.getLists();
-                task.id = data.id;
-                angular.forEach($scope.board.lists, function(l) {
-                    if(l.id == list.id) {
-                        task.end_date = "0000-00-00 00:00:00";
-                        list.tasks.push(task);
-                    }					
-                });
-                $scope.broadcastItemChanged();
-            }).error(function(data, status, headers, config) { 	
-				//An error has occured
+    $scope.addTask = function(addname, list) {
+        task.addTask(addname, list.id, function(data, status, headers, config){			
+            var t = data.task;
+            angular.forEach($scope.board.lists, function(l) {
+                if(l.id == list.id) {
+                    t.end_date = "0000-00-00 00:00:00";
+                    list.tasks.push(t);
+                }					
             });
+            $scope.broadcastItemChanged();
+        });
     }
 	
-	$scope.removeTask = function(task) {
-//            console.log(task);
-            $http({
-                url:'/todo/api/task',
-                method:'DELETE',
-                data:{id:task.id}
-            }).success(function(data, status, headers, config){			
-//                $scope.errorMessage = null;				
-//                $scope.getLists();
-                
-                $scope.getTaskWithId(task.id, function(l, i) {
-                    l.tasks.splice(i, 1);
-                });
-                $scope.broadcastItemChanged();
-            }).error(function(data, status, headers, config) {
-                
+    $scope.removeTask = function(t) {
+        task.removeTask(t.id, function(data, status, headers, config) {
+            $scope.getTaskWithId(t.id, function(l, i) {
+                l.tasks.splice(i, 1);
             });
+            $scope.broadcastItemChanged();
+        });
     }
     
-    $scope.editTask = function(task) {
-        task.end_date = task.end_date.replace("T", " ");
+    $scope.editTask = function(t) {
+        t.end_date = t.end_date.replace("T", " ");
         var $parent = $scope.$parent;
-        $http({
-            url:"/todo/api/task",
-            method:"PUT",
-            data:task
-        }).success(function(data, status, headers, config){
-            $scope.getTaskWithId(task.id, function(l, i, $parent) {
-                l.tasks[i] = task;
+        task.editTask(t, function(data, status, headers, config){
+            $scope.getTaskWithId(t.id, function(l, i) {
+                l.tasks[i] = t;
             }, $parent.board.lists);
             $scope.broadcastItemChanged();
-            //$parent.board.lists = $scope.board.lists;
-        }).error(function(data, status, headers, config) {
-            
         });
         
         $state.transitionTo('main.board',{boardid:$scope.boardid});
@@ -216,38 +154,29 @@ app.controller('BoardCtrl', function($scope, $stateParams, $state, $http) {
             if(found) return false;
         });
     }
-
-    $scope.broadcastItemChanged = function() {
-        $scope.$root.$broadcast("itemChanged");
-    }
 	
     $scope.toggleEditor = function(list) {
-        if(!list.editorEnabled)
-        {
-            console.log("edit gedrukt");
+        if(!list.editorEnabled) {
             list.editableName = list.name;
         } else {
-            console.log("pre");
-            console.log(list);
-            if(list.editableName)
-            {
-                    console.log("perfect");
-                    console.log(list);
-                    list.name = list.editableName;
-                    $scope.editList(list);
+            if(list.editableName && list.editableName != list.name) {
+                list.name = list.editableName;
+                $scope.editList(list);
             }
         }
         list.editorEnabled = !list.editorEnabled;
     };
 
     $scope.removeListPressed = function(list) {
-        if(!list.editorEnabled)
-        {
+        if(!list.editorEnabled) {
             $scope.removeList(list);
         } else {
             list.editorEnabled = !list.editorEnabled;
         }
-
+    }
+    
+    $scope.broadcastItemChanged = function() {
+        $scope.$root.$broadcast("itemChanged");
     }
 
     init();

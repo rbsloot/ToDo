@@ -71,7 +71,7 @@ angular.module('bootstrap.tabset', [])
       }
     },
     template:
-      '<div class="board-container">' +
+      '<div class="full-height">' +
 //        '<div class="row-fluid">' +
           '<ul class="nav nav-tabs" ng-transclude></ul>' +
 //        '</div>' +
