@@ -338,6 +338,12 @@
     border-color: #d43f3a;
 }
 
+.navbar-center {
+    position:absolute;
+    top: 0;
+    left:50%;
+}
+
 
 /* MEDIA STYLES */
 

@@ -13,6 +13,8 @@ app.controller('BoardsCtrl', function($scope, $rootScope, boards, $state) {
             name:"Loading..."
     }];
 
+    var $root = $scope.$root.$$childHead;
+
     $scope.boardLoadCallback = function() {};
 //    [{
 //            id:3,
@@ -49,17 +51,23 @@ app.controller('BoardsCtrl', function($scope, $rootScope, boards, $state) {
     }
 
     $scope.getBoards = function() {
+        $root.isLoading = true;
+        
         boards.getBoards(function(data, status, headers, config) {
             $scope.boards = data;
             
             $scope.setActive();
             $scope.boardLoadCallback();
+            
+            $root.isLoading = false;
         });  
     }
     
     $scope.getBoards();
     
    $scope.addBoard = function(boardName) {
+       $root.isLoading = true;
+       
        if(boardName) {
            boards.addBoard(boardName, function(data, status, headers, config) {
                var id = data.id;
@@ -69,25 +77,35 @@ app.controller('BoardsCtrl', function($scope, $rootScope, boards, $state) {
                         name:boardName
                     });
                }
+               
+               $root.isLoading = false;
            });
        }
    } 
    
    $scope.editBoard = function(editName, id) {
+       $root.isLoading = true;
+       
        boards.editBoard(editName, id, function(data, status, headers, config) {
            var i = $scope.getBoardIndexById(id);
           $scope.boards[i].name = editName;
           document.title = editName + " - ToDo";
           $scope.broadcastItemChanged();
+          
+          $root.isLoading = false;
        });
    }
    
    $scope.removeBoard = function(bid) {
+       $root.isLoading = true;
+       
        boards.removeBoard(bid, function(data, status, headers, config) {
            var index = $scope.getBoardIndexById(bid);
           $scope.boards.splice(index, 1);
           $state.transitionTo('main');
           $scope.broadcastItemChanged();
+          
+          $root.isLoading = false;
        });
    }
    

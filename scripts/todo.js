@@ -65,6 +65,7 @@ var app = angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset']
 
 app.controller('MainCtrl', function ($scope) {
     $scope.isLogged = !!(localStorage.token);
+    $scope.isLoading = false;
      
     $scope.$back = function() {
         window.history.back();

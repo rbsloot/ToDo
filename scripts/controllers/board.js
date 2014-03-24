@@ -10,6 +10,8 @@ app.controller('BoardCtrl', function($scope, $stateParams, $state, list, task, $
         id:$stateParams.boardid
     };
     
+    var $root = $scope.$root.$$childHead;
+    
     function init() {
         //alert("start broadcast");
         //console.log($stateParams);
@@ -65,6 +67,8 @@ app.controller('BoardCtrl', function($scope, $stateParams, $state, list, task, $
     }
     
     $scope.getLists = function() {
+        $root.isLoading = true;
+        
         list.getLists($scope.boardid,function(data, status, headers, config) {
             $scope.board.lists = data;
             if($scope.taskid) {
@@ -74,18 +78,25 @@ app.controller('BoardCtrl', function($scope, $stateParams, $state, list, task, $
                 list.editableName = list.name;
             });
             console.log("done loading lists");
+            $root.isLoading = false;
         });
     }
     
     $scope.addList = function(addListName) {
+        $root.isLoading = true;
+        
         list.addList(addListName, $scope.boardid, function(data, status, headers, config){			
             var l = data.list;
             $scope.board.lists.push(l);
             $scope.broadcastItemChanged();
+            
+            $root.isLoading = false;
         });
     }
 	
     $scope.removeList = function(l) {
+        $root.isLoading = true;
+        
         list.removeList(l.id, function(data, status, headers, config){			
             for(var i in $scope.board.lists) {
                 if(l.id == $scope.board.lists[i].id) {
@@ -94,18 +105,26 @@ app.controller('BoardCtrl', function($scope, $stateParams, $state, list, task, $
                 }
             }
             $scope.broadcastItemChanged();
+            
+            $root.isLoading = false;
         });
     }
 
     $scope.editList = function(l) {
+        $root.isLoading = true;
+        
         list.editList(l, function(data, status, headers, config){
             $scope.broadcastItemChanged();
         });
 
         $state.transitionTo('main.board',{boardid:$scope.boardid});
+        
+        $root.isLoading = false;
     }
 	
     $scope.addTask = function(addname, list) {
+        $root.isLoading = true;
+        
         task.addTask(addname, list.id, function(data, status, headers, config){			
             var t = data.task;
             angular.forEach($scope.board.lists, function(l) {
@@ -115,19 +134,27 @@ app.controller('BoardCtrl', function($scope, $stateParams, $state, list, task, $
                 }					
             });
             $scope.broadcastItemChanged();
+            
+            $root.isLoading = false;
         });
     }
 	
     $scope.removeTask = function(t) {
+        $root.isLoading = true;
+        
         task.removeTask(t.id, function(data, status, headers, config) {
             $scope.getTaskWithId(t.id, function(l, i) {
                 l.tasks.splice(i, 1);
             });
             $scope.broadcastItemChanged();
+            
+            $root.isLoading = false;
         });
     }
     
     $scope.editTask = function(t) {
+        $root.isLoading = true;
+        
         t.end_date = t.end_date.replace("T", " ");
         var $parent = $scope.$parent;
         task.editTask(t, function(data, status, headers, config){
@@ -135,6 +162,8 @@ app.controller('BoardCtrl', function($scope, $stateParams, $state, list, task, $
                 l.tasks[i] = t;
             }, $parent.board.lists);
             $scope.broadcastItemChanged();
+            
+            $root.isLoading = false;
         });
         
         $state.transitionTo('main.board',{boardid:$scope.boardid});
