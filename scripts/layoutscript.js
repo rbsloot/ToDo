@@ -10,6 +10,11 @@ $(document).ready(function() {
         $(".board-container").toggleClass("transition-delay").toggleClass("full-width");
     });
     
+    $("#logged-users-toggler").click(function(e) {
+        e.preventDefault();
+        
+    });
+    
     $(".main-content").on("click", ".schedule-board-name, .schedule-list-name", function() {
         $(this).toggleClass("closed");
         if($(this).hasClass("schedule-board-name")) {

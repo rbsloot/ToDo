@@ -40,7 +40,7 @@ class UserController extends BaseController {
 //			$this->db->bindParam(":token", $token, DatabaseConnection::ConvertTypeToPDOParam("string"));
 //			$this->db->bindParam(":id", $id, DatabaseConnection::ConvertTypeToPDOParam("integer"));
 //			$this->db->execute();
-			
+			$user->setLoggedState('online', $this->db);
 			return array("token"=>$token);
 			
 		} else {			
@@ -64,7 +64,7 @@ class UserController extends BaseController {
                     header(BaseController::$HEADERS[409]);
             } else {	
 
-                    $query = "INSERT INTO user (username, password) VALUES (:name, :password)";
+                    $query = "INSERT INTO user (username, password, status) VALUES (:name, :password, 'offline')";
                     $this->db->prepareQuery($query);
                     $this->db->bindParam(":name", $name, DatabaseConnection::ConvertTypeToPDOParam("string"));
                     $this->db->bindParam(":password", $password, DatabaseConnection::ConvertTypeToPDOParam("string"));
@@ -103,6 +103,7 @@ class UserController extends BaseController {
         
         $user = $params['_user'];
         $user->updateToken(null, $this->db);
+        $user->setLoggedState('offline', $this->db);
         header(BaseController::$HEADERS[200]);
     }
     
@@ -130,6 +131,30 @@ class UserController extends BaseController {
     
     public function updateToken() {
         
+    }
+    
+    public function logstate($request) {
+        $params = $request->parameters;
+        $state = $params['state'];
+        $user = $params['_user'];
+        $user->setLoggedState($state, $this->db);
+    }
+    
+    public function countLogged() {
+        $db = $this->db;
+        return array(
+            'scriptTime' => 60,
+            'sleepTime' => 10,
+            'func' => function() use($db) {
+                $query = "SELECT COUNT(*) as count FROM user WHERE status = 'online'";
+                $db->prepareQuery($query);
+                $dataRows = $db->executeAndGetDatarows();
+            
+                $count = (isset($dataRows[0])) ? $dataRows[0]['count'] : 0;
+
+                return "data:{$count}\n\n";
+            }
+        );
     }
     
 }

@@ -17,13 +17,13 @@ var app = angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset']
         url:'/login',
         title: 'Login',
         views: {
-            "dialog":{templateUrl:'templates/login.html', controller:'UserCtrl'}
+            "dialog":{templateUrl:'templates/login.html' /*, controller:'UserCtrl'*/}
         }
     }).state('register', {
         url:'/register',
         title: 'Register',
         views: {
-            "dialog":{templateUrl:'templates/register.html', controller:'UserCtrl'}
+            "dialog":{templateUrl:'templates/register.html' /*, controller:'UserCtrl'*/}
         }
     }).state('main.board.edittask', {
         url:'/task/:taskid',

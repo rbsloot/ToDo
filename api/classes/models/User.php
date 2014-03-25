@@ -38,6 +38,14 @@ class User extends DBModel {
         $db->execute();
     }
     
+    public function setLoggedState($state, $db) {
+        $query = "UPDATE `user` SET `status` = :state WHERE `id` = :id";
+        $db->prepareQuery($query);
+        $db->bindParam(':state', $state, DatabaseConnection::ConvertTypeToPDOParam("string"));
+        $db->bindParam(':id', $this->id, DatabaseConnection::ConvertTypeToPDOParam("integer"));
+        $db->execute();
+    }
+    
 }
 
 ?>

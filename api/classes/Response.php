@@ -20,6 +20,9 @@ class Response {
     public static function create($data, $format)
     {
         switch ($format) {
+            case 'text/event-stream':
+                $obj = new ResponseTextStream($data);
+                break;
             case 'application/json':
             default:
                 $obj = new ResponseJson($data);

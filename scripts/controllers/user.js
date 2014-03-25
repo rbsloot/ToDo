@@ -5,6 +5,49 @@
 
 app.controller('UserCtrl', function($scope, $http, $state, $rootScope) {
         var $main = $rootScope.$$childHead;
+        var source = null;
+        $scope.onlineUsers = 0;
+        
+        // fout is de login controller update de waarde van zijn scope, alleen die "bestaat niet meer" na het inloggen
+        
+        $scope.getLoggedInUsers = function() {
+            if(typeof(EventSource) !== "undefined") {
+                source = new EventSource("/todo/api/user/countLogged");
+                source.addEventListener('message', function(e) {
+                    $scope.$apply(function() {
+                        $scope.onlineUsers = e.data;
+                    });
+                    if(!$main.isLogged) { source.close(); }
+                    //source.close();
+                }, false);
+                source.addEventListener('open', function(e) {
+                    // Connection was opened.
+                    console.log("connection open");
+                }, false);
+                source.addEventListener('error', function(e) {
+                    if (e.readyState == EventSource.CLOSED) {
+                        // Connection was closed.
+                        console.log("connection closed");
+                    }
+                }, false);
+            }
+        }
+        
+        window.onbeforeunload = function() {
+             $scope.setLoggedState('offline');
+        }
+        
+        $scope.setLoggedState = function(state) {
+            $http({
+                url:'/todo/api/user/logstate',
+                method: 'PUT',
+                data: {state:state, token:localStorage.token}
+            }).success(function(data, status, headers, config) {
+                console.log(data);
+            }).error(function(data, status, headers, config) {
+                console.log(data);
+            });
+        }
         
 	$scope.login = function(user) {		
             console.log(user);
@@ -17,6 +60,7 @@ app.controller('UserCtrl', function($scope, $http, $state, $rootScope) {
                 $scope.errorMessage = null;
                 $main.isLogged = true;
                 $state.transitionTo('main');
+                $scope.getLoggedInUsers();
             }).error(function(data, status, headers, config) {
                 if(status == 404) {
                     $scope.errorMessage = "Incorrect username and/or password";
@@ -33,6 +77,7 @@ app.controller('UserCtrl', function($scope, $http, $state, $rootScope) {
                 localStorage.removeItem("token");
                 $scope.errorMessage = null;
                 $main.isLogged = false;
+                if(source) { source.close(); }
                 $state.transitionTo('login');
             }).error(function(data, status, headers, config) {
                 console.log(data);
@@ -60,4 +105,10 @@ app.controller('UserCtrl', function($scope, $http, $state, $rootScope) {
         } 
 
     }
+    
+    if($main.isLogged) {
+        $scope.setLoggedState('online');
+        $scope.getLoggedInUsers();
+    }
+    
 });

@@ -80,7 +80,7 @@ if (!empty($request->url_elements)) {
             
             $controller = new $controller_name($dbcon);
             $action_name = (isset($url_elements[1])) ? strtolower($url_elements[1]) : strtolower($request->method);
-            $response_str = call_user_func_array(array($controller, $action_name), array($request));
+            $response_data = call_user_func_array(array($controller, $action_name), array($request));
         } catch(Exception $e) {
             header(BaseController::$HEADERS[500]);
             echo $e->getMessage();
@@ -90,16 +90,16 @@ if (!empty($request->url_elements)) {
     else {
         //header('HTTP/1.1 404 Not Found');
         header(BaseController::$HEADERS[404]);
-        $response_str = 'Unknown request: ' . $url_elements[0];
+        $response_data = 'Unknown request: ' . $url_elements[0];
     }
 }
 else {
-    $response_str = 'Unknown request';
+    $response_data = 'Unknown request';
 }
 
 /**
  * Send the response to the client.
  */
-$response_obj = Response::create($response_str, $_SERVER['HTTP_ACCEPT']);
-echo $response_obj->render();
+$response_obj = Response::create($response_data, $_SERVER['HTTP_ACCEPT']);
+$response_obj->render();
 ?>

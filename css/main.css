@@ -238,6 +238,10 @@
     margin-bottom: 5px;
 }
 
+.task-remaining-days {
+    display:block;
+}
+
 .schedule-today {
     width: 30%;
     height: 100%;

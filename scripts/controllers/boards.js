@@ -7,7 +7,6 @@ app.controller('BoardsCtrl', function($scope, $rootScope, boards, $state) {
     //alert("init BoardsCtrl");
     //var $parent = $rootScope.$$childTail;
     $scope.activeBoardId = -1;
-    $scope.testName = "testVal";
     $scope.boards = [{
             id:-1,
             name:"Loading..."

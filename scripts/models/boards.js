@@ -12,6 +12,9 @@ app.service('boards', function($http) {
         .success(success)
         .error(function(data, status, headers, config) {
             console.log(data);
+            if(status == 404) {
+                localStorage.removeItem("token");
+            }
         });
     }
     
