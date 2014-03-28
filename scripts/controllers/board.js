@@ -160,12 +160,17 @@ app.controller('BoardCtrl', function($scope, $stateParams, $state, list, task, $
         task.editTask(t, function(data, status, headers, config){
 			
 			console.log($parent.board);
-            $scope.getTaskWithId(t.id, function(l, i) {
-                l.tasks[i] = t;
-            }, $parent.board.lists);
-			
-            $scope.broadcastItemChanged();
-            
+			if($parent.board)
+			{
+				$scope.getTaskWithId(t.id, function(l, i) {
+					l.tasks[i] = t;
+					console.log($parent.board);
+				}, $parent.board.lists);
+			} else {
+				$scope.getLists();
+			}
+					
+            $scope.broadcastItemChanged();            
             $root.isLoading = false;
         });
         
