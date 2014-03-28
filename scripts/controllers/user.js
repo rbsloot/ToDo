@@ -8,11 +8,13 @@ app.controller('UserCtrl', function($scope, $http, $state, $rootScope) {
         var source = null;
         $scope.onlineUsers = 0;
         
+        var u_url = root_path + "/user";
+        
         // fout is de login controller update de waarde van zijn scope, alleen die "bestaat niet meer" na het inloggen
         
         $scope.getLoggedInUsers = function() {
             if(typeof(EventSource) !== "undefined") {
-                source = new EventSource("/todo/api/user/countLogged");
+                source = new EventSource(u_url+"/countLogged");
                 source.addEventListener('message', function(e) {
                     $scope.$apply(function() {
                         $scope.onlineUsers = e.data;
@@ -39,7 +41,7 @@ app.controller('UserCtrl', function($scope, $http, $state, $rootScope) {
         
         $scope.setLoggedState = function(state) {
             $http({
-                url:'/todo/api/user/logstate',
+                url:u_url+'/logstate',
                 method: 'PUT',
                 data: {state:state, token:localStorage.token}
             }).success(function(data, status, headers, config) {
@@ -52,7 +54,7 @@ app.controller('UserCtrl', function($scope, $http, $state, $rootScope) {
 	$scope.login = function(user) {		
             console.log(user);
             $http({
-                url:'/todo/api/user/login',
+                url:u_url+'/login',
                 method:'GET',
                 params:user
             }).success(function(data, status, headers, config){			
@@ -70,7 +72,7 @@ app.controller('UserCtrl', function($scope, $http, $state, $rootScope) {
         
     $scope.logout = function() {
            $http({
-                url:'/todo/api/user/logout',
+                url:u_url+'/logout',
                 method:'GET',
                 params:{token:localStorage.token}
             }).success(function(data, status, headers, config){			
@@ -89,12 +91,13 @@ app.controller('UserCtrl', function($scope, $http, $state, $rootScope) {
         console.log(user);
         if(user.repeatPassword === user.password){	
             $http({
-                url:'/todo/api/user/register',
+                url:u_url+'/register',
                 method:'POST',
                 data:user
             }).success(function(data, status, headers, config){			
                 $scope.errorMessage = null;
-                $state.transitionTo('login');
+                //$state.transitionTo('login');
+                $scope.login(user);
             }).error(function(data, status, headers, config) {
                 if(status == 409) {
                     $scope.errorMessage = "User already exists";

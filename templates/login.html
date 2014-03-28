@@ -1,3 +1,5 @@
+<h1></h1>
+
 <div class="dialogbackground">
     <div class="basedialog login-dialog">
         <a class="close-btn" ng-click="$back()">X</a>
@@ -19,9 +21,12 @@
 				<div class="alert alert-danger" ng-show='errorMessage'>
 				{{errorMessage}}
 				</div>
-                <div class="pull-right">                    
-                    <a class="btn btn-default" ng-click="$back()">Cancel</a>
-					<button type="submit" class="btn btn-primary">Sign in</button>
+                <div class="btn-control" style="padding-bottom:10px;">
+                    <a ui-sref="register" class="btn btn-link">Register</a>
+                    <div class="pull-right">                    
+                        <a class="btn btn-default" ng-click="$back()">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+                    </div>
                 </div>				
             </fieldset>			
         </form>

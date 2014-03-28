@@ -10,7 +10,7 @@ app.controller('ScheduleCtrl', function($scope, $http) {
     
     $scope.getSchedule = function() {
         $http({
-            url:"/todo/api/task/getScheduledTasksForUser",
+            url:root_path+"/task/getScheduledTasksForUser",
             method:"GET",
             params:{token:localStorage.token, days:$scope.scheduleDays}
         }).success(function(data, status, headers, config) {

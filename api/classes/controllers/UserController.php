@@ -54,10 +54,10 @@ class UserController extends BaseController {
             $name = $params["name"];
             $password = $params["password"];
 
-            $query = "SELECT id FROM user WHERE username = :name AND password = :password";
+            $query = "SELECT id FROM user WHERE username = :name";
             $this->db->prepareQuery($query);
             $this->db->bindParam(":name", $name, DatabaseConnection::ConvertTypeToPDOParam("string"));
-            $this->db->bindParam(":password", $password, DatabaseConnection::ConvertTypeToPDOParam("string"));
+            //$this->db->bindParam(":password", $password, DatabaseConnection::ConvertTypeToPDOParam("string"));
             $dataRows = $this->db->executeAndGetDatarows();
 
             if(isset($dataRows[0])) {			
