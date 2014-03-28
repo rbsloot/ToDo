@@ -37,6 +37,7 @@ app.service('task', function($http) {
     }
     
     this.editTask = function(task, success) {
+		console.log(task);
         task.end_date = task.end_date.replace("T", " ");
         $http({
             url:t_url,

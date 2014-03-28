@@ -61,7 +61,9 @@ var app = angular.module('todo',['ui.router', 'ui.bootstrap','bootstrap.tabset']
             }
         }
     });
-});
+})
+.directive("ddDraggable", Draggable)
+.directive("ddDropTarget", DropTarget);  
 
 app.controller('MainCtrl', function ($scope) {
     $scope.isLogged = !!(localStorage.token);

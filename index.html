@@ -23,13 +23,17 @@ and open the template in the editor.
         <script src="scripts/modules/ui-bootstrap.js"></script>
         <script src="scripts/modules/tabtemplates.js"></script>
         
-        <!--Load MainApp-->
+		<!--Load Directories-->
+		<script src="scripts/directory/dragDir.js"></script>
+        <script src="scripts/directory/dropDir.js"></script>
+			
+	   <!--Load MainApp-->
         <script src="scripts/todo.js"></script>
         
         <!--Load Controllers-->
         <script src="scripts/controllers/boards.js"></script>
         <script src="scripts/controllers/board.js"></script>
-	<script src="scripts/controllers/user.js"></script>
+		<script src="scripts/controllers/user.js"></script>
         <script src="scripts/controllers/schedule.js"></script>
         
         <!--Load Models-->
@@ -42,6 +46,8 @@ and open the template in the editor.
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="css/main.css" rel="stylesheet" />
         
+
+		
     </head>
     <body ng-controller="UserCtrl">
         <!--Mobile drag and drop http://touchpunch.furf.com/ -->

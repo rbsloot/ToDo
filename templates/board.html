@@ -1,6 +1,6 @@
 <div ui-view="main-dialog"></div>
 
-<div ng-repeat="list in board.lists" class="panel panel-primary task-list" listid="{{list.id}}">
+<div ng-repeat="list in board.lists" class="panel panel-primary task-list" dd-drop-target="true" listid="{{list.id}}">
     <div class="panel-heading" style="position: relative;" >		
 			<button class="btn btn-tab-remove btn-default btn-xs pull-right" type="button" ng-click="removeListPressed(list)"><span class="glyphicon glyphicon-remove"></span></button>
 			<button class="btn btn-tab-edit btn-default btn-xs pull-right" type="button" ng-click="toggleEditor(list)"><span class="glyphicon glyphicon-pencil"></span></button>
@@ -12,11 +12,11 @@
 	</div>
 		
     <ul class="list-group">		
-        <li ng-repeat="task in list.tasks" class="list-group-item">
-            <div class="task" draggable="true" title="{{task.description}}">
+        <li ng-repeat="task in list.tasks" class="list-group-item" >
+            <div class="task" dd-draggable="true" title="{{task.description}}" taskinfo="{{task}}">
                 <button class="close-btn" ng-click="removeTask(task)">X</button>
                 <a ui-sref="main.board.edittask({boardid:board.id,listid:list.id,taskid:task.id})" taskid="{{task.id}}">
-                    <div class="task-name">
+                    <div class="task-name" >
                         {{task.name}}
                     </div>
                     <span class="task-end-date">{{task.end_date}}</span>

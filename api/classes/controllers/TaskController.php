@@ -64,26 +64,31 @@ class TaskController extends BaseController {
         // Edit task data
         $params = $request->parameters;
         $taskId = $params["id"];
-        
-        if(isset($taskId)) {
+		$test = $params["list_id"];
+        if(isset($test))
+		{
+			if(isset($taskId)) {
             $name = "name";
             $description = "description";
             $end_date = "end_date";
             $status = "status";
+			$list_id = "list_id";
             
             $strType = DatabaseConnection::ConvertTypeToPDOParam("string");
             
-            $query = "UPDATE `task` SET `$name` = :$name, `$description` = :$description, `$end_date` = :$end_date, `$status` = :$status WHERE `id` = :id";
+            $query = "UPDATE `task` SET `$name` = :$name, `$description` = :$description, `$end_date` = :$end_date, `$status` = :$status, `$list_id` = :$list_id WHERE `id` = :id";
             
             $this->db->prepareQuery($query);
             $this->db->bindParam(":id", $taskId, DatabaseConnection::ConvertTypeToPDOParam("integer"));
             $this->db->bindParam(":".$name, $params[$name], $strType);
             $this->db->bindParam(":".$description, $params[$description], $strType);
             $this->db->bindParam(":".$end_date, $params[$end_date]);
+			$this->db->bindParam(":".$list_id, $params[$list_id], DatabaseConnection::ConvertTypeToPDOParam("integer"));
             $this->db->bindParam(":".$status, $params[$status], $strType);
             $this->db->execute();
             
-        } else {
+			}
+		}else {
             header(BaseController::$HEADERS[404]);
         }
     }

@@ -158,9 +158,12 @@ app.controller('BoardCtrl', function($scope, $stateParams, $state, list, task, $
         t.end_date = t.end_date.replace("T", " ");
         var $parent = $scope.$parent;
         task.editTask(t, function(data, status, headers, config){
+			
+			console.log($parent.board);
             $scope.getTaskWithId(t.id, function(l, i) {
                 l.tasks[i] = t;
             }, $parent.board.lists);
+			
             $scope.broadcastItemChanged();
             
             $root.isLoading = false;
@@ -183,6 +186,19 @@ app.controller('BoardCtrl', function($scope, $stateParams, $state, list, task, $
             if(found) return false;
         });
     }
+	
+	$scope.moveTask = function(fromInfo, toList)
+	{
+		var task = JSON.parse(fromInfo);
+		var oldListId = task.list_id;
+
+		if(toList != oldListId)
+		{
+			task.list_id = toList;
+			$scope.editTask(task);
+		}	
+	}
+		
 	
     $scope.toggleEditor = function(list) {
         if(!list.editorEnabled) {
