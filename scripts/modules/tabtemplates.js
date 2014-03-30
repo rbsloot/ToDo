@@ -126,7 +126,7 @@ angular.module('bootstrap.tabset', [])
         scope.editClick = function() {
             if(scope.editMode) {
                 // Handle edit value, scope.editName
-                if(scope.editName != scope.board.name) {
+                if(scope.editName && scope.editName != scope.board.name) {
                     tabsetController.editBoard(scope.editName, scope.id);
                 }
             }
